@@ -38,10 +38,16 @@ export function LibraryView({ store, memoryOnly, onOpen }: Props) {
   const [records, setRecords] = useState<readonly ScriptRecord[]>([]);
   const [pasted, setPasted] = useState("");
   const [outcome, setOutcome] = useState<Outcome>(null);
+  // 読み込みは 1 つずつ。続けて押すと、前の保存が終わる前に同じ ID の確認をすり抜ける
+  const [busy, setBusy] = useState(false);
+  // 終わった読み込みの数。E2E が「保存まで終わった」ことを待つのに使う (data-imports)
+  const [completed, setCompleted] = useState(0);
   const refresh = useCallback(() => void store.list().then(setRecords), [store]);
   useEffect(refresh, [refresh]);
 
   async function run(request: ImportRequest, openAfter = false) {
+    if (busy) return;
+    setBusy(true);
     try {
       const result = await importScript(deps(store), request);
       if (result.kind === "invalid") return setOutcome({ kind: "invalid", issues: result.issues });
@@ -53,6 +59,9 @@ export function LibraryView({ store, memoryOnly, onOpen }: Props) {
       if (openAfter) onOpen(result.record);
     } catch {
       setOutcome({ kind: "save-failed" });
+    } finally {
+      setBusy(false);
+      setCompleted((n) => n + 1);
     }
   }
 
@@ -65,7 +74,7 @@ export function LibraryView({ store, memoryOnly, onOpen }: Props) {
   });
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-4" data-imports={completed}>
       <h2 className="text-base font-semibold">{t("library.title")}</h2>
       <p className="text-sm opacity-70">
         {t(memoryOnly ? "library.memoryOnly" : "library.backupHint")}
@@ -121,6 +130,7 @@ export function LibraryView({ store, memoryOnly, onOpen }: Props) {
             />
           </label>
           <Action
+            disabled={busy}
             onClick={() => run({ text: sample, format: "yaml", onConflict: "replace" }, true)}
           >
             {t("library.sample")}
@@ -135,7 +145,7 @@ export function LibraryView({ store, memoryOnly, onOpen }: Props) {
           className="w-full rounded border border-neutral-500/30 bg-transparent p-2 font-mono text-sm"
         />
         <div>
-          <Action onClick={() => importText(pasted, null)} disabled={pasted.trim() === ""}>
+          <Action onClick={() => importText(pasted, null)} disabled={busy || pasted.trim() === ""}>
             {t("library.paste")}
           </Action>
         </div>
