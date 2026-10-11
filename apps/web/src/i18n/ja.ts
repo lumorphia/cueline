@@ -125,6 +125,9 @@ export const ja = {
   "player.tags": "聞くタグ",
   "player.allTags": "全部",
   "app.back": "戻る",
+  "player.wakeLockUnavailable":
+    "この端末では画面の自動ロックを止められません。端末の設定で、ロックまでの時間を長くしてください",
+  "player.wakeLockLost": "画面の自動ロックが戻りました。この画面に戻ると、また止めます",
 } as const;
 
 export type MessageKey = keyof typeof ja;
