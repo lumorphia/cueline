@@ -31,7 +31,11 @@ const speechAvailable = () =>
   "speechSynthesis" in window &&
   "SpeechSynthesisUtterance" in window;
 
-export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
+export function usePlayer(
+  timeline: Timeline,
+  settings: PlayerSettings,
+  onPlayingChange?: (playing: boolean) => void,
+) {
   const [snapshot, setSnapshot] = useState<EngineSnapshot | null>(null);
   const [banner, setBanner] = useState<{ text: string; until: number } | null>(null);
   const [missed, setMissed] = useState(false);
@@ -43,6 +47,8 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
   // 設定は再生を作り直さずに変えられるように、ref から読む
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
+  const onPlayingRef = useRef(onPlayingChange);
+  onPlayingRef.current = onPlayingChange;
 
   useEffect(() => {
     const timer = createWorkerTimer();
@@ -73,8 +79,10 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
       rewindPolicy: settings.rewindPolicy,
       lookaheadMs: settings.lookaheadMs,
       onStateChange(state) {
-        if (state === "countdown" || state === "running") wake.hold();
+        const playing = state === "countdown" || state === "running";
+        if (playing) wake.hold();
         else wake.release();
+        onPlayingRef.current?.(playing);
       },
       onFire(notification, dueAtMono) {
         if (!shouldPlay(notification, settingsRef.current.chosenTags)) return;
@@ -115,6 +123,7 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
       cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", onVisible);
       engine.stop();
+      onPlayingRef.current?.(false);
       arbiter?.cancelAll();
       timer.dispose();
       wake.dispose();

@@ -189,4 +189,7 @@ export const en: Record<MessageKey, string> = {
   "recorder.newPhase": "New phase {n} (manual)",
   "recorder.now": "NOW",
   "recorder.nextPhase": "Next phase",
+  "app.updateReady": "A new version is ready",
+  "app.updateWhilePlaying": "A new version is ready. You can update after playback",
+  "app.update": "Update",
 };
