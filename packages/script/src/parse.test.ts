@@ -3,30 +3,21 @@ import { stringify } from "yaml";
 import { LIMITS } from "./limits.ts";
 import { parseScript } from "./parse.ts";
 import type { ParseResult } from "./parse.ts";
+import { absolute, event, phase, script } from "./test-script.ts";
 
 // テストの中で作る最小のスクリプト。上書きしたいところだけ渡す
-function minimal(overrides: Record<string, unknown> = {}): Record<string, unknown> {
-  return {
-    version: 1,
-    metadata: { id: "test-boss", name: "テスト_ボス", language: "ja-JP" },
+const minimal = (overrides: Record<string, unknown> = {}) =>
+  script({
     phases: [
-      {
-        id: "p1",
-        name: "フェーズ1",
-        start: { type: "absolute", at: 0 },
-        events: [
-          {
-            id: "raidwide-1",
-            at: 15,
-            name: "全体攻撃",
-            notifications: [{ type: "speech", text: "全体攻撃" }],
-          },
-        ],
-      },
+      phase("p1", absolute(0), [
+        event("raidwide-1", 15, {
+          name: "全体攻撃",
+          notifications: [{ type: "speech", text: "全体攻撃" }],
+        }),
+      ]),
     ],
     ...overrides,
-  };
-}
+  });
 
 function issuesOf(result: ParseResult) {
   if (result.ok) throw new Error("通ってしまった");
