@@ -179,4 +179,14 @@ export const en: Record<MessageKey, string> = {
   "library.new": "Create new",
   "library.edit": "Edit",
   "library.newName": "New timeline",
+  "recorder.open": "Record",
+  "recorder.title": "Record a timeline",
+  "recorder.finish": "Finish and add",
+  "recorder.cancel": "Cancel",
+  "recorder.hint":
+    "Press pull or start along with a video or a real fight, then press Now the moment a mechanic comes (Space works too). Fix names and calls in the table afterwards",
+  "recorder.target": "Add to phase",
+  "recorder.newPhase": "New phase {n} (manual)",
+  "recorder.now": "NOW",
+  "recorder.nextPhase": "Next phase",
 };
