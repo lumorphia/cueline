@@ -311,7 +311,6 @@ async function startLong() {
   };
   worker.onmessage = () => tick();
   worker.postMessage({ type: "set", id: 1, delayMs: everyMs });
-  $("d-start").disabled = true;
   $("d-stop").disabled = false;
 }
 
@@ -320,7 +319,7 @@ function stopLong() {
   dRun.worker.terminate();
   dRun.wakeLock?.release();
   dRun = null;
-  $("d-start").disabled = false;
+  setBusy(false);
   $("d-stop").disabled = true;
   log("D 終わり");
 }
@@ -344,11 +343,25 @@ function download() {
 
 // --- つなぐ ---
 
+// 読み上げはブラウザに 1 つしか無いので、計測は 1 つずつ回す (同時に回すと互いの cancel で止め合う)
+const START_BUTTONS = ["test", "a-start", "b-start", "c-start", "d-start"];
+let busy = false;
+
+function setBusy(value) {
+  busy = value;
+  START_BUTTONS.forEach((id) => ($(id).disabled = value));
+  $("busy").textContent = value ? "計測中。終わるまで他の計測は始められない" : "";
+}
+
 const guard = (fn) => async () => {
+  if (busy) return;
+  setBusy(true);
   try {
     await fn();
   } catch (err) {
     log(`失敗: ${err}`);
+  } finally {
+    if (!dRun) setBusy(false);
   }
 };
 
