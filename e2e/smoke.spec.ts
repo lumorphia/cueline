@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./test.ts";
 
 test("shows the app title", async ({ page }) => {
   await page.goto("/");

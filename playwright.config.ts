@@ -4,7 +4,7 @@ const PORT = 4310;
 
 /**
  * apps/web のビルドに対して E2E を回す。build は pnpm e2e が先に済ませる。
- * 応答ヘッダー (CSP など) を付けて配るサーバーは RM-12 で足す。今は vite preview
+ * e2e/serve.ts が本番と同じ応答ヘッダー (apps/web/public/_headers) を付けて配る
  */
 export default defineConfig({
   testDir: "./e2e",
@@ -19,7 +19,7 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { browserName: "chromium" } }],
   webServer: {
-    command: "pnpm --filter @timeline-call/web preview --host 127.0.0.1",
+    command: `PORT=${PORT} node e2e/serve.ts`,
     url: `http://127.0.0.1:${PORT}/`,
     reuseExistingServer: !process.env.CI,
   },
