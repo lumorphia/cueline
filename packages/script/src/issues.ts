@@ -24,7 +24,23 @@ export type ScriptIssueCode =
   | "too_few"
   | "too_many"
   | "out_of_range"
-  | "invalid";
+  | "invalid"
+  // 意味
+  | "duplicate_phase_id"
+  | "duplicate_event_id"
+  | "duplicate_tag_id"
+  | "unknown_tag"
+  | "first_phase_not_at_zero"
+  | "phases_not_ascending"
+  | "absolute_after_manual"
+  | "negative_at_outside_first_phase"
+  | "fires_before_manual_start"
+  | "too_precise"
+  | "too_many_events"
+  | "too_many_notifications"
+  // 警告 (読み込みは止めない)
+  | "fires_before_countdown"
+  | "event_after_next_phase";
 
 export type IssuePath = readonly (string | number)[];
 
@@ -41,3 +57,9 @@ export const error = (
   path: IssuePath = [],
   params?: Record<string, string | number>,
 ): ScriptIssue => ({ severity: "error", code, path, ...(params ? { params } : {}) });
+
+export const warning = (
+  code: ScriptIssueCode,
+  path: IssuePath = [],
+  params?: Record<string, string | number>,
+): ScriptIssue => ({ ...error(code, path, params), severity: "warning" });

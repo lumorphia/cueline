@@ -9,6 +9,7 @@ import { scriptV1 } from "./schema-v1.ts";
 import type { ScriptV1Input } from "./schema-v1.ts";
 import { LATEST_VERSION } from "./script.ts";
 import type { Script } from "./script.ts";
+import { validateScript } from "./validate.ts";
 
 export type ParseResult =
   | { ok: true; script: Script; warnings: readonly ScriptIssue[] }
@@ -60,7 +61,13 @@ export function parseScript(text: string, _options: ParseOptions = {}): ParseRes
     );
   }
 
-  return { ok: true, script: normalize(parsed.data), warnings: [] };
+  // 5. 意味。エラーが 1 つでもあれば読み込まない。警告だけなら読み込む
+  const script = normalize(parsed.data);
+  const issues = validateScript(script).map((i) => locate(i, doc, lineCounter));
+  if (issues.some((i) => i.severity === "error")) return fail(issues);
+
+  // 6. 移行。v1 しか無い今は何もしない
+  return { ok: true, script, warnings: issues };
 }
 
 function checkVersion(version: unknown): ScriptIssue | null {
