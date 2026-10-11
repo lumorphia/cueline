@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PoC-001 タイマーの精度</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: system-ui, sans-serif;
+      }
+      body {
+        margin: 0 auto;
+        max-width: 720px;
+        padding: 16px;
+      }
+      fieldset {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: max-content 1fr;
+        align-items: center;
+      }
+      button {
+        font-size: 1.1rem;
+        min-height: 48px;
+        padding: 0 20px;
+      }
+      pre {
+        background: color-mix(in srgb, currentColor 8%, transparent);
+        font-size: 0.85rem;
+        overflow-x: auto;
+        padding: 8px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>PoC-001 タイマーの精度</h1>
+    <p>
+      予定の時刻と、タイマーが起きて気づいた時刻の差 (遅れ) を記録する。手順と合否の目安は
+      docs/design/08-poc.md。終わったら CSV を保存して docs/spikes/ に結果を書く。
+    </p>
+
+    <fieldset>
+      <legend>条件</legend>
+      <label for="minutes">長さ (分)</label>
+      <input id="minutes" type="number" min="1" max="180" value="35" />
+      <label for="interval">間隔 (秒)</label>
+      <input id="interval" type="number" min="0.1" step="0.1" value="7.3" />
+      <label for="timer">タイマー</label>
+      <select id="timer">
+        <option value="worker">Worker</option>
+        <option value="main">メインスレッド</option>
+      </select>
+      <label for="audio">AudioContext</label>
+      <select id="audio">
+        <option value="none">なし</option>
+        <option value="silent">無音 (gain 0)</option>
+        <option value="inaudible">聞こえない小さな音 (gain 0.0001)</option>
+      </select>
+      <label for="wakelock">Wake Lock</label>
+      <input id="wakelock" type="checkbox" />
+      <label for="beep">起きるたびに短い音</label>
+      <input id="beep" type="checkbox" />
+    </fieldset>
+
+    <p>
+      <button id="start" type="button">開始</button>
+      <button id="stop" type="button">止める</button>
+      <button id="download" type="button">CSV を保存</button>
+    </p>
+
+    <h2>結果</h2>
+    <pre id="summary">-</pre>
+    <h2>出来事</h2>
+    <pre id="log"></pre>
+    <h2>環境</h2>
+    <pre id="env"></pre>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
