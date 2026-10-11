@@ -1,11 +1,14 @@
 // 画面の入口 (docs/design/05-ui.md)。ライブラリ、再生、設定を切り替える
-import { buildTimeline, parseScript } from "@timeline-call/script";
+import { buildTimeline, hasComments, parseScript, serializeScript } from "@timeline-call/script";
+import type { Script } from "@timeline-call/script";
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
+import { newScript } from "./editor/draft.ts";
+import { EditorView } from "./editor/editor-view.tsx";
 import { useI18n } from "./i18n/context.tsx";
 import { IssueList } from "./library/issue-list.tsx";
 import { LibraryView } from "./library/library-view.tsx";
-import type { ScriptRecord } from "./library/store.ts";
+import type { ScriptRecord, ScriptStore } from "./library/store.ts";
 import { lastOpened, rememberLast, useScriptStore } from "./library/use-store.ts";
 import { Player } from "./player/player.tsx";
 import { useSettings } from "./settings/context.tsx";
@@ -17,6 +20,7 @@ export function App() {
   const { store, memoryOnly } = useScriptStore();
   const [open, setOpen] = useState<ScriptRecord | null>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [editing, setEditing] = useState<Editing | null>(null);
 
   // 最後に開いたスクリプトから始める (戦闘の合間に開き直してすぐ使えるように)
   useEffect(() => {
@@ -31,16 +35,60 @@ export function App() {
   };
 
   let body: ReactNode = null;
+  const edit = (record: ScriptRecord) => {
+    const parsed = parseScript(record.source, { format: record.format });
+    if (!parsed.ok) return;
+    setEditing({
+      session: crypto.randomUUID(),
+      script: parsed.script,
+      record,
+      hadComments: hasComments(record.source, record.format),
+    });
+  };
+  const create = () =>
+    setEditing({
+      session: crypto.randomUUID(),
+      script: newScript({
+        name: t("library.newName"),
+        randomId: () => crypto.randomUUID().slice(0, 8),
+      }),
+      record: null,
+      hadComments: false,
+    });
+
   if (showSettings) body = <SettingsView />;
+  else if (editing && store)
+    body = (
+      <EditorView
+        // 保存で record が決まっても作り直さない (作り直すと打った内容が初めの下書きに戻る)
+        key={editing.session}
+        initial={editing.script}
+        hadComments={editing.hadComments}
+        onSave={async (script) => {
+          const record = await saveDraft(store, script, editing.record);
+          setEditing((e) => (e ? { ...e, script, record } : e));
+        }}
+        onClose={() => setEditing(null)}
+      />
+    );
   else if (open) body = <OpenScript record={open} />;
-  else if (store) body = <LibraryView store={store} memoryOnly={memoryOnly} onOpen={openRecord} />;
+  else if (store)
+    body = (
+      <LibraryView
+        store={store}
+        memoryOnly={memoryOnly}
+        onOpen={openRecord}
+        onEdit={edit}
+        onCreate={create}
+      />
+    );
 
   return (
     <main className="mx-auto flex h-dvh max-w-3xl flex-col gap-3 px-4 pt-3">
       <div className="flex items-center justify-between gap-3">
         <h1 className="truncate text-base font-bold sm:text-lg">{t("app.title")}</h1>
         <div className="flex shrink-0 gap-1">
-          {(open || showSettings) && (
+          {(open || showSettings) && !editing && (
             <HeaderButton
               onClick={() => (showSettings ? setShowSettings(false) : openRecord(null))}
             >
@@ -57,12 +105,39 @@ export function App() {
       </div>
       {/* 再生は画面の高さに収め、余りを次の通知の一覧に回す。ライブラリと設定は縦にスクロールする */}
       <div
-        className={`flex min-h-0 flex-1 flex-col ${open && !showSettings ? "" : "overflow-y-auto pb-4"}`}
+        className={`flex min-h-0 flex-1 flex-col ${open && !showSettings && !editing ? "" : "overflow-y-auto pb-4"}`}
       >
         {body}
       </div>
     </main>
   );
+}
+
+type Editing = {
+  /** エディタを開くたびに決める。EditorView の key に使う */
+  session: string;
+  script: Script;
+  record: ScriptRecord | null;
+  hadComments: boolean;
+};
+
+/** エディタの下書きを保存する。直したものは元の形式 (YAML / JSON) で書き直し、新しいものは YAML で置く */
+async function saveDraft(
+  store: ScriptStore,
+  script: Script,
+  record: ScriptRecord | null,
+): Promise<ScriptRecord> {
+  const format = record?.format ?? "yaml";
+  const saved: ScriptRecord = {
+    key: record?.key ?? crypto.randomUUID(),
+    metadataId: script.metadata.id,
+    name: script.metadata.name,
+    format,
+    source: serializeScript(script, format),
+    updatedAt: Date.now(),
+  };
+  await store.put(saved);
+  return saved;
 }
 
 function HeaderButton({ children, onClick }: { children: ReactNode; onClick: () => void }) {
