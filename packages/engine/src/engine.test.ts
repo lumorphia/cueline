@@ -559,6 +559,20 @@ describe("snapshot", () => {
     expect(engine.snapshot(3).upcomingEvents.map((e) => e.event.id)).toEqual(["b", "c"]);
   });
 
+  it("names the next manual phase while many events of the current phase remain", () => {
+    const many = Array.from({ length: 8 }, (_, i) => ev(`a${i}`, (i + 1) * 10));
+    const { engine } = setup(timelineOf(abs("p1", 0, many), man("p2", [ev("b", 5)])));
+    engine.start();
+    expect(engine.snapshot(3).nextManualPhase).toEqual({ id: "p2", name: "テスト_p2" });
+  });
+
+  it("names no manual phase once it has started", () => {
+    const { engine } = setup(timelineOf(abs("p1", 0, [ev("a", 10)]), man("p2", [ev("b", 5)])));
+    engine.start();
+    engine.startPhase("p2");
+    expect(engine.snapshot().nextManualPhase).toBeNull();
+  });
+
   it("does not fire anything by being read", () => {
     const { engine, time, fires } = setup(abc());
     engine.start();
