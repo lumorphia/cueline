@@ -11,3 +11,6 @@ test-results/
 playwright-report/
 .react-router/
 .data/
+
+# PoC の計測結果の CSV (要点は docs/spikes/ に写す)
+spikes/**/result/
