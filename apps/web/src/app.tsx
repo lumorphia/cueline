@@ -11,6 +11,7 @@ import { LibraryView } from "./library/library-view.tsx";
 import type { ScriptRecord, ScriptStore } from "./library/store.ts";
 import { lastOpened, rememberLast, useScriptStore } from "./library/use-store.ts";
 import { Player } from "./player/player.tsx";
+import { useServiceWorker } from "./pwa/use-service-worker.ts";
 import { useSettings } from "./settings/context.tsx";
 import { SettingsView } from "./settings/settings-view.tsx";
 import { lookaheadFor, tagsFor, withTags } from "./settings/settings.ts";
@@ -21,6 +22,8 @@ export function App() {
   const [open, setOpen] = useState<ScriptRecord | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [editing, setEditing] = useState<Editing | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const { updateReady, apply } = useServiceWorker();
 
   // 最後に開いたスクリプトから始める (戦闘の合間に開き直してすぐ使えるように)
   useEffect(() => {
@@ -71,7 +74,7 @@ export function App() {
         onClose={() => setEditing(null)}
       />
     );
-  else if (open) body = <OpenScript record={open} />;
+  else if (open) body = <OpenScript record={open} onPlayingChange={setPlaying} />;
   else if (store)
     body = (
       <LibraryView
@@ -103,6 +106,24 @@ export function App() {
           </HeaderButton>
         </div>
       </div>
+      {updateReady && (
+        <div
+          className="flex flex-wrap items-center gap-2 rounded bg-sky-500/15 px-3 py-2 text-sm"
+          role="status"
+        >
+          <span className="mr-auto">
+            {t(playing ? "app.updateWhilePlaying" : "app.updateReady")}
+          </span>
+          <button
+            type="button"
+            disabled={playing}
+            onClick={apply}
+            className="min-h-10 rounded bg-sky-600 px-3 text-white disabled:opacity-40"
+          >
+            {t("app.update")}
+          </button>
+        </div>
+      )}
       {/* 再生は画面の高さに収め、余りを次の通知の一覧に回す。ライブラリと設定は縦にスクロールする */}
       <div
         className={`flex min-h-0 flex-1 flex-col ${open && !showSettings && !editing ? "" : "overflow-y-auto pb-4"}`}
@@ -152,7 +173,13 @@ function HeaderButton({ children, onClick }: { children: ReactNode; onClick: () 
   );
 }
 
-function OpenScript({ record }: { record: ScriptRecord }) {
+function OpenScript({
+  record,
+  onPlayingChange,
+}: {
+  record: ScriptRecord;
+  onPlayingChange: (playing: boolean) => void;
+}) {
   const { settings, update } = useSettings();
   // 開くたびに検証し直す (06)。アプリの版が上がって読めなくなったら、問題を出す
   const parsed = useMemo(() => parseScript(record.source, { format: record.format }), [record]);
@@ -182,6 +209,7 @@ function OpenScript({ record }: { record: ScriptRecord }) {
         countdownSeconds={countdown}
         nudgeMs={Math.round(settings.nudgeSeconds * 1000)}
         onTagsChange={(tags) => update((s) => withTags(s, scriptId, tags))}
+        onPlayingChange={onPlayingChange}
       />
     </>
   );

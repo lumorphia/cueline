@@ -191,6 +191,9 @@ export const ja = {
   "recorder.newPhase": "新しいフェーズ {n} (手動)",
   "recorder.now": "い ま",
   "recorder.nextPhase": "次のフェーズ",
+  "app.updateReady": "新しい版があります",
+  "app.updateWhilePlaying": "新しい版があります。再生が終わったら更新できます",
+  "app.update": "更新",
 } as const;
 
 export type MessageKey = keyof typeof ja;

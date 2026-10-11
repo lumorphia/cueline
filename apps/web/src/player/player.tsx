@@ -17,11 +17,20 @@ type Props = {
   countdownSeconds: number;
   nudgeMs: number;
   onTagsChange: (tags: readonly string[] | null) => void;
+  /** カウント中・戦闘中かを知らせる (その間は新しい版に入れ替えない) */
+  onPlayingChange?: (playing: boolean) => void;
 };
 
-export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsChange }: Props) {
+export function Player({
+  timeline,
+  settings,
+  countdownSeconds,
+  nudgeMs,
+  onTagsChange,
+  onPlayingChange,
+}: Props) {
   const { t } = useI18n();
-  const player = usePlayer(timeline, settings);
+  const player = usePlayer(timeline, settings, onPlayingChange);
   const s = player.snapshot;
   useShortcuts(player, nudgeMs);
   const eventName = (eventId: string) =>
