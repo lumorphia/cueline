@@ -27,7 +27,7 @@
 | RM    | 中身                                                                                                                            | 状態                                                                          |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | RM-10 | monorepo の骨組み (pnpm、TypeScript、ESLint の boundaries とそのテスト、Prettier、vitest、Playwright、husky + gitleaks)         | 済                                                                            |
-| RM-11 | CI (lint → format → typecheck → coverage 付きテスト → build → E2E)、release-please、Renovate                                    | 未着手                                                                        |
+| RM-11 | CI (lint → format → typecheck → coverage 付きテスト → build → E2E)、release-please、Renovate                                    | 済                                                                            |
 | RM-12 | Cloudflare の配信 (wrangler、PR ごとのプレビュー、応答ヘッダー)                                                                 | 一部 (計測ページのプレビュー `timeline-call-spikes` だけ)                     |
 | RM-13 | PoC-001 タイマーの精度                                                                                                          | 済 (`docs/spikes/poc-001-timer.md`、ADR-0013)                                 |
 | RM-14 | PoC-002 Web Speech                                                                                                              | PC は済。iPhone の cancel の直後が残り (`docs/spikes/poc-002-speech.md`)      |
