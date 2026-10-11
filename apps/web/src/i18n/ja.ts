@@ -25,6 +25,77 @@ export const ja = {
   "player.missed": "時間がずれた可能性があります。イベント同期で合わせてください",
   "player.noSpeech": "このブラウザでは読み上げを使えません。画面の表示だけで知らせます",
   "player.phaseTime": "フェーズ内 {time}",
+  "library.title": "ライブラリ",
+  "library.empty": "まだスクリプトがありません。読み込むか、サンプルを開いてください",
+  "library.import": "読み込む",
+  "library.openFile": "ファイルを選ぶ",
+  "library.paste": "貼り付けて読み込む",
+  "library.pastePlaceholder": "YAML か JSON のスクリプトを貼り付ける",
+  "library.sample": "サンプルを開く",
+  "library.open": "開く",
+  "library.exportYaml": "YAML で書き出す",
+  "library.exportJson": "JSON で書き出す",
+  "library.delete": "消す",
+  "library.confirmDelete": "「{name}」を消しますか。書き出していなければ、元に戻せません",
+  "library.back": "ライブラリへ",
+  "library.conflict": "同じ ID ({id}) のスクリプト「{name}」があります",
+  "library.replace": "上書きする",
+  "library.separate": "別に保存する",
+  "library.cancel": "やめる",
+  "library.invalid": "読み込めませんでした。次を直してください",
+  "library.warnings": "読み込みました。次の点に気をつけてください",
+  "library.line": "{line} 行目",
+  "library.memoryOnly":
+    "このブラウザでは保存できません。閉じると消えるので、書き出して控えを持ってください",
+  "library.backupHint":
+    "スクリプトは端末の中にだけ保存します。ホーム画面に追加すると消えにくくなります。書き出して控えも持ってください",
+  "library.saveFailed": "保存できませんでした (容量が足りないかもしれません)",
+  "library.updated": "更新 {date}",
+  "issue.too_large": "大きすぎます (上限 {max} 文字)",
+  "issue.yaml_syntax": "YAML の書き方が正しくありません",
+  "issue.duplicate_key": "同じキーが 2 回あります",
+  "issue.unsupported_tag": "使えない YAML のタグ (!! で始まるもの) があります",
+  "issue.too_many_aliases": "エイリアス (*) が多すぎます (上限 {max})",
+  "issue.too_deep": "入れ子が深すぎます (上限 {max})",
+  "issue.not_object": "スクリプトの一番外側は、キーと値の組 (マップ) にしてください",
+  "issue.version_missing": "version がありません。version: 1 を足してください",
+  "issue.version_invalid": "version は整数にしてください (例: version: 1)",
+  "issue.version_unsupported": "この version は読めません。version: {latest} にしてください",
+  "issue.app_update_required":
+    "新しい版のスクリプトです。アプリを更新してください (このアプリが読めるのは version {latest} まで)",
+  "issue.required": "必要な項目がありません",
+  "issue.unknown_key": "知らないキーです。綴りを確かめてください",
+  "issue.invalid_type": "値の種類が違います (数と文字列など)",
+  "issue.invalid_format": "形が正しくありません (ID は英小文字・数字・ハイフン)",
+  "issue.invalid_choice": "次のどれかにしてください: {choices}",
+  "issue.too_short": "短すぎます ({min} 文字以上)",
+  "issue.too_long": "長すぎます ({max} 文字まで)",
+  "issue.too_few": "少なすぎます ({min} 個以上)",
+  "issue.too_many": "多すぎます ({max} 個まで)",
+  "issue.out_of_range": "値が範囲の外です",
+  "issue.invalid": "値が正しくありません",
+  "issue.duplicate_phase_id": "フェーズの ID「{id}」が重なっています",
+  "issue.duplicate_event_id":
+    "イベントの ID「{id}」が重なっています (フェーズをまたいでも重ねられません)",
+  "issue.duplicate_tag_id": "タグの ID「{id}」が重なっています",
+  "issue.unknown_tag": "タグ「{tag}」が metadata.tags にありません",
+  "issue.first_phase_not_at_zero":
+    "最初のフェーズは start: { type: absolute, at: 0 } にしてください",
+  "issue.phases_not_ascending":
+    "時刻で始まるフェーズは、前のフェーズ ({previous} 秒) より後の時刻にしてください",
+  "issue.absolute_after_manual":
+    "手動 (manual) のフェーズより後のフェーズは、すべて manual にしてください",
+  "issue.negative_at_outside_first_phase":
+    "負の時刻 (プルカウント中) は最初のフェーズでだけ使えます",
+  "issue.fires_before_manual_start":
+    "手動のフェーズでは、始まる前に鳴らせません。before を {at} 以下にしてください",
+  "issue.too_precise": "時刻はミリ秒 (小数 3 桁) までにしてください",
+  "issue.too_many_events": "イベントが多すぎます ({count} 個。上限 {max} 個)",
+  "issue.too_many_notifications": "通知が多すぎます ({count} 個。上限 {max} 個)",
+  "issue.fires_before_countdown":
+    "プルカウント ({countdown} 秒) より前に鳴る通知です。カウントを長くしないと鳴りません",
+  "issue.event_after_next_phase":
+    "次のフェーズが始まった後のイベントです。フェーズが重なっています",
 } as const;
 
 export type MessageKey = keyof typeof ja;
