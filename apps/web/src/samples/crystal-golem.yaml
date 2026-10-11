@@ -1,0 +1,120 @@
+# 同梱のサンプル (要件 FR-007)。架空のボスで、実在のコンテンツ名・技名は使わない。
+# プルカウント、事前コール、画面表示、タグ、優先度、手動のフェーズを一通り使う
+version: 1
+
+metadata:
+  id: sample-crystal-golem
+  name: "サンプル: 水晶のゴーレム"
+  description: "架空のボスで作ったサンプル。フェーズ2 は敵の体力で始まるので、手動で始める"
+  author: "Lumorphia"
+  language: ja-JP
+  tags:
+    - id: tank
+      label: "タンク"
+    - id: healer
+      label: "ヒーラー"
+    - id: dps
+      label: "DPS"
+
+countdown:
+  default: 15
+
+defaults:
+  before: 3
+
+phases:
+  - id: p1
+    name: "フェーズ1"
+    start:
+      type: absolute
+      at: 0
+    events:
+      - id: prepull-buff
+        at: -5
+        name: "プル前のバフ"
+        notifications:
+          - type: speech
+            before: 0
+            text: "バフ"
+            tags: [healer]
+      - id: crystal-roar-1
+        at: 8
+        name: "クリスタルロア"
+        notifications:
+          - type: speech
+            before: 5
+            text: "5秒後、全体攻撃"
+          - type: display
+            before: 5
+            text: "全体攻撃"
+      - id: shard-buster-1
+        at: 20
+        name: "シャードバスター"
+        notifications:
+          - type: speech
+            text: "タンク強攻撃"
+            tags: [tank]
+            priority: high
+      - id: prism-spread-1
+        at: 32
+        name: "プリズム散開"
+        notifications:
+          - type: speech
+            text: "散開"
+      - id: crystal-roar-2
+        at: 45
+        name: "クリスタルロア"
+        notifications:
+          - type: speech
+            before: 5
+            text: "5秒後、全体攻撃"
+      - id: stone-gather-1
+        at: 58
+        name: "ストーンギャザー"
+        notifications:
+          - type: speech
+            text: "頭割り"
+      - id: shard-buster-2
+        at: 70
+        name: "シャードバスター"
+        notifications:
+          - type: speech
+            text: "タンク強攻撃"
+            tags: [tank]
+            priority: high
+
+  - id: p2
+    name: "フェーズ2"
+    start:
+      type: manual
+    events:
+      - id: transition-roar
+        at: 6
+        name: "移行の咆哮"
+        notifications:
+          - type: speech
+            before: 5
+            text: "5秒後、全体攻撃"
+      - id: mirror-1
+        at: 18
+        name: "ミラーリフレクト"
+        notifications:
+          - type: speech
+            text: "反射、背面へ"
+          - type: display
+            text: "背面へ"
+      - id: shard-buster-3
+        at: 30
+        name: "シャードバスター"
+        notifications:
+          - type: speech
+            text: "タンク強攻撃"
+            tags: [tank]
+            priority: high
+      - id: enrage
+        at: 120
+        name: "時間切れ"
+        notifications:
+          - type: speech
+            before: 10
+            text: "10秒後、時間切れ"
