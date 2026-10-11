@@ -24,16 +24,16 @@
 
 ## M1 骨組みと PoC
 
-| RM    | 中身                                                                                                                    | 状態   |
-| ----- | ----------------------------------------------------------------------------------------------------------------------- | ------ |
-| RM-10 | monorepo の骨組み (pnpm、TypeScript、ESLint の boundaries とそのテスト、Prettier、vitest、Playwright、husky + gitleaks) | 未着手 |
-| RM-11 | CI (lint → format → typecheck → coverage 付きテスト → build → E2E)、release-please、Renovate                            | 未着手 |
-| RM-12 | Cloudflare の配信 (wrangler、PR ごとのプレビュー、応答ヘッダー)                                                         | 未着手 |
-| RM-13 | PoC-001 タイマーの精度                                                                                                  | 未着手 |
-| RM-14 | PoC-002 Web Speech                                                                                                      | 未着手 |
-| RM-15 | PoC-003 VOICEVOX との接続                                                                                               | 未着手 |
-| RM-16 | PoC-004 音声のキャッシュ                                                                                                | 未着手 |
-| RM-17 | PoC の結果で、許容値 (要件 14 章 6)・Worker の採否・競合の既定を決め、ADR と設計書に戻す                                | 未着手 |
+| RM    | 中身                                                                                                                            | 状態   |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| RM-10 | monorepo の骨組み (pnpm、TypeScript、ESLint の boundaries とそのテスト、Prettier、vitest、Playwright、husky + gitleaks)         | 未着手 |
+| RM-11 | CI (lint → format → typecheck → coverage 付きテスト → build → E2E)、release-please、Renovate                                    | 未着手 |
+| RM-12 | Cloudflare の配信 (wrangler、PR ごとのプレビュー、応答ヘッダー)                                                                 | 未着手 |
+| RM-13 | PoC-001 タイマーの精度                                                                                                          | 未着手 |
+| RM-14 | PoC-002 Web Speech                                                                                                              | 未着手 |
+| RM-15 | PoC-003 VOICEVOX との接続                                                                                                       | 未着手 |
+| RM-16 | PoC-004 音声のキャッシュ                                                                                                        | 未着手 |
+| RM-17 | PoC の結果で、許容値 (要件 14 章 6)・Worker の採否・`lateToleranceMs`・競合の既定を決め、ADR と設計書に戻す (ADR-0006 の仮の値) | 未着手 |
 
 RM-13〜16 は RM-12 のプレビューの上で測る (HTTPS が要る)。
 
@@ -53,6 +53,7 @@ RM-13〜16 は RM-12 のプレビューの上で測る (HTTPS が要る)。
 | RM-29 | 架空のボスのサンプル                                                     | FR-007                    | 未着手 |
 | RM-30 | E2E: 読み込み → プルカウント → 鳴る → 補正 → 取り消し、CSP、スマホの画面 | 11.3                      | 未着手 |
 | RM-31 | 公開ゲート (下)                                                          | -                         | 未着手 |
+| RM-32 | 試作を実戦で使い、時刻を戻したときの扱い (`rewindPolicy`) の既定を決める | FR-105、ADR-0006          | 未着手 |
 
 ### 公開ゲート (RM-31)
 
