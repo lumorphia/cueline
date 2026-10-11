@@ -14,5 +14,6 @@
 | [0010](0010-speech-providers-and-audio-pack.md) | 読み上げはプロバイダで抽象化し、VOICEVOX の声は音声パックで渡す | Accepted (実装は P1) |
 | [0011](0011-ui-language-ja-en.md)               | 画面は日本語と英語、文言は辞書で持つ                            | Accepted             |
 | [0012](0012-sharing-with-lumorphia-account.md)  | 共有 (P2) のログインは Lumorphia アカウント                     | Proposed             |
+| [0013](0013-worker-timer.md)                    | タイマーは Web Worker の中で回す                                | Accepted             |
 
 本文中の「scenote ADR-NNNN」などは、lumorphia の他のリポジトリの ADR を指す。
