@@ -1,0 +1,30 @@
+// 日本語の文言 (ADR-0011)。キーは en.ts と揃える (型とテストで確かめる)
+export const ja = {
+  "app.title": "Timeline Call (仮称)",
+  "app.language": "English",
+  "state.ready": "準備",
+  "state.countdown": "カウント中",
+  "state.running": "戦闘中",
+  "state.paused": "一時停止",
+  "state.finished": "終わり",
+  "player.countdown": "プル {seconds} 秒",
+  "player.start": "開始",
+  "player.pause": "一時停止",
+  "player.resume": "再開",
+  "player.stop": "停止 (長押し)",
+  "player.undo": "取り消し",
+  "player.nudgeBack": "-{seconds} 秒",
+  "player.nudgeForward": "+{seconds} 秒",
+  "player.syncNow": "いま: {name}",
+  "player.startPhase": "{name} を開始",
+  "player.upcoming": "次の通知",
+  "player.recent": "鳴らした通知",
+  "player.fired": "済",
+  "player.skipped": "飛ばした",
+  "player.nothingAhead": "この先の通知はありません",
+  "player.missed": "時間がずれた可能性があります。イベント同期で合わせてください",
+  "player.noSpeech": "このブラウザでは読み上げを使えません。画面の表示だけで知らせます",
+  "player.phaseTime": "フェーズ内 {time}",
+} as const;
+
+export type MessageKey = keyof typeof ja;

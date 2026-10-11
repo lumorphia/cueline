@@ -1,0 +1,30 @@
+// 英語の文言 (ADR-0011)
+import type { MessageKey } from "./ja.ts";
+
+export const en: Record<MessageKey, string> = {
+  "app.title": "Timeline Call (working title)",
+  "app.language": "日本語",
+  "state.ready": "Ready",
+  "state.countdown": "Countdown",
+  "state.running": "In combat",
+  "state.paused": "Paused",
+  "state.finished": "Finished",
+  "player.countdown": "Pull {seconds}s",
+  "player.start": "Start",
+  "player.pause": "Pause",
+  "player.resume": "Resume",
+  "player.stop": "Stop (hold)",
+  "player.undo": "Undo",
+  "player.nudgeBack": "-{seconds}s",
+  "player.nudgeForward": "+{seconds}s",
+  "player.syncNow": "Now: {name}",
+  "player.startPhase": "Start {name}",
+  "player.upcoming": "Next calls",
+  "player.recent": "Recent calls",
+  "player.fired": "Done",
+  "player.skipped": "Skipped",
+  "player.nothingAhead": "No more calls ahead",
+  "player.missed": "The timing may have slipped. Use event sync to line it up again",
+  "player.noSpeech": "This browser cannot read aloud. Calls are shown on screen only",
+  "player.phaseTime": "Phase {time}",
+};
