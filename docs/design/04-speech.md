@@ -38,13 +38,14 @@ interface SpeechProvider {
 
 - どの方式でも、行列は無制限に伸びない (要件 FR-205)
 - 捨てたコールは画面の一覧に「鳴らさなかった」として出す (実行済みの区別と別。engine の状態は変えない)
-- 既定は PoC-002 の結果で見直す (要件 FR-205)
+- 既定は「中断」。PoC-002 で、PC の Chrome で最後のコールが毎回最後まで鳴った (`docs/spikes/poc-002-speech.md`)
+- 中断された読み上げの `interrupted` の知らせは、次の読み上げを始めた後に届く。プロバイダの知らせはどのコールのものかを見て、今のコールでなければ読み捨てる
 
 ## Web Speech (P0、要件 FR-201)
 
 - 声: `speechSynthesis.getVoices()` を、`voiceschanged` を待って読む。`metadata.language` に合う声を先に並べる。設定で選んだ声が無ければ、言語の合う最初の声にし、画面で知らせる
 - 速さ (0.5〜2.0)、音量 (0〜1)、高さ (0〜2) は `SpeechSynthesisUtterance` に渡す
-- 中断は `speechSynthesis.cancel()` してから `speak()`。cancel の直後の speak が落ちる端末があれば (PoC-002)、短い間を空ける
+- 中断は `speechSynthesis.cancel()` してから、間を空けずに `speak()`。PoC-002 で、PC の Chrome は cancel の直後でも 20 回とも落ちなかった (話し始めはふだんより 45ms ほど遅い)。iPhone で落ちるなら間を空ける
 - オンラインの声 (Edge の「Natural」の声など) は、通信の遅れとオフラインで鳴らないおそれがある。声の一覧で「オンライン」(`localService === false`) と分かるようにし、既定では端末の中の声を選ぶ
 - `onstart` までの遅れ (立ち上がり) を測り、設定画面に出す (PoC-002 の道具をそのまま使う)
 
