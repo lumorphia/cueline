@@ -20,9 +20,13 @@ phases:
           - { type: speech, text: テスト, before: 3 }
 `;
 
+/** 貼り付けて読み込み、保存まで終わるのを待つ (data-imports が 1 増える) */
 async function paste(page: Page, text: string) {
+  const section = page.locator("[data-imports]");
+  const before = Number(await section.getAttribute("data-imports"));
   await page.getByRole("textbox", { name: "YAML か JSON のスクリプトを貼り付ける" }).fill(text);
   await page.getByRole("button", { name: "貼り付けて読み込む" }).click();
+  await expect(section).toHaveAttribute("data-imports", String(before + 1));
 }
 
 test.beforeEach(async ({ page }) => {
