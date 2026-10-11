@@ -40,6 +40,8 @@ Permissions-Policy: camera=(), microphone=(), geolocation=(), screen-wake-lock=(
 Cross-Origin-Opener-Policy: same-origin
 ```
 
+- Trusted Types: Worker の URL は、同じオリジンの URL だけを通すポリシー `timeline-call` で作る (`apps/web/src/trusted-types.ts`)。文字列を HTML や script として使う箇所は持たない
+- zod 4 は速く検証するために `new Function` を試すので、`z.config({ jitless: true })` で止める (`packages/script/src/schema-v1.ts`)。止めないと TrustedScript の違反が出る
 - `connect-src` に入れる外は、利用者の PC の上のポート (VOICEVOX) だけ。ポートは利用者が変えられるので `*` にする。外のホストへは出られない
 - インラインのスクリプトとスタイルは使わない (Vite の出力をそのまま守る)。守れないものが出たら、ハッシュで許す
 - ヘッダーは E2E で検証し、CSP の違反を全テストで見張る (prismtone の `e2e/test.ts` と同じやり方)
