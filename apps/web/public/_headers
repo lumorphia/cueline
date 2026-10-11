@@ -7,6 +7,10 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), screen-wake-lock=(self)
   Cross-Origin-Opener-Policy: same-origin
 
+# Service Worker は毎回確かめさせる (中身が変わったかで、ブラウザが新しい版を知る)
+/sw.js
+  Cache-Control: no-cache
+
 # ファイル名にハッシュが入るので、長く持たせてよい
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
