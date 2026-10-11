@@ -1,4 +1,5 @@
 // タイムラインスクリプト (docs/design/02-timeline-script.md)
+export { hasComments } from "./comments.ts";
 export { LIMITS } from "./limits.ts";
 export { parseScript } from "./parse.ts";
 export type { ParseOptions, ParseResult } from "./parse.ts";
