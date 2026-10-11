@@ -7,7 +7,6 @@ export type {
   SynthLike,
   UnlockOptions,
   UtteranceConstructor,
-  UtteranceLike,
   VoiceLike,
   VoiceSettings,
   WebSpeechOptions,
