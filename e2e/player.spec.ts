@@ -6,6 +6,7 @@ import { expect, test } from "./test.ts";
 test.beforeEach(async ({ page }) => {
   await fakeSpeech(page);
   await page.goto("/");
+  await page.getByRole("button", { name: "サンプルを開く" }).click();
 });
 
 test("speaks the first call after starting", async ({ page }) => {
