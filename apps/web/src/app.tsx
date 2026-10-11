@@ -36,10 +36,10 @@ export function App() {
   else if (store) body = <LibraryView store={store} memoryOnly={memoryOnly} onOpen={openRecord} />;
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-3 p-4">
+    <main className="mx-auto flex h-dvh max-w-3xl flex-col gap-3 px-4 pt-3">
       <div className="flex items-center justify-between gap-3">
-        <h1 className="text-lg font-bold">{t("app.title")}</h1>
-        <div className="flex gap-1">
+        <h1 className="truncate text-base font-bold sm:text-lg">{t("app.title")}</h1>
+        <div className="flex shrink-0 gap-1">
           {(open || showSettings) && (
             <HeaderButton
               onClick={() => (showSettings ? setShowSettings(false) : openRecord(null))}
@@ -55,7 +55,12 @@ export function App() {
           </HeaderButton>
         </div>
       </div>
-      {body}
+      {/* 再生は画面の高さに収め、余りを次の通知の一覧に回す。ライブラリと設定は縦にスクロールする */}
+      <div
+        className={`flex min-h-0 flex-1 flex-col ${open && !showSettings ? "" : "overflow-y-auto pb-4"}`}
+      >
+        {body}
+      </div>
     </main>
   );
 }
@@ -64,7 +69,7 @@ function HeaderButton({ children, onClick }: { children: ReactNode; onClick: () 
   return (
     <button
       type="button"
-      className="min-h-10 rounded px-2 text-sm hover:bg-neutral-500/20"
+      className="min-h-10 rounded px-2 text-sm whitespace-nowrap hover:bg-neutral-500/20"
       onClick={onClick}
     >
       {children}
