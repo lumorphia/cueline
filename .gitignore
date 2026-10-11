@@ -14,3 +14,6 @@ playwright-report/
 
 # PoC の計測結果の CSV (要点は docs/spikes/ に写す)
 spikes/**/result/
+
+# wrangler の手元のキャッシュ (アカウントの情報が入る)
+.wrangler/
