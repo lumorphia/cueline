@@ -1,0 +1,12 @@
+// 本体の配信 (ADR-0002、docs/runbook/deploy.md)。apps/web のビルドを静的アセットとして配る。
+// 応答ヘッダーは apps/web/public/_headers。正式名が決まるまでは workers.dev だけ (09-roadmap の公開ゲート)
+{
+  "name": "timeline-call",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./apps/web/dist",
+    "not_found_handling": "single-page-application",
+  },
+  // PR ごとのプレビュー (版ごとの URL)
+  "preview_urls": true,
+}

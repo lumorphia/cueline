@@ -26,6 +26,7 @@ spikes/           PoC の計測ページ (本体から import しない。ESLint
 | 設計の索引       | [docs/SUMMARY.md](docs/SUMMARY.md)                                   |
 | 次に何をやるか   | [docs/design/09-roadmap.md](docs/design/09-roadmap.md)               |
 | なぜそう決めたか | [docs/adr/](docs/adr/README.md)                                      |
+| 配信             | [docs/runbook/deploy.md](docs/runbook/deploy.md)                     |
 
 ## 守ること
 
@@ -77,5 +78,6 @@ pnpm dev                 # http://localhost:4310 (apps/web)
 pnpm test                # vitest (packages、apps、tooling)
 pnpm test:coverage       # 閾値 80%
 pnpm e2e                 # build してから Playwright (初回は pnpm exec playwright install chromium)
+npx wrangler deploy                            # 本体を載せる (pnpm build の後。docs/runbook/deploy.md)
 npx wrangler deploy -c spikes/wrangler.jsonc   # PoC の計測ページを載せ直す
 ```
