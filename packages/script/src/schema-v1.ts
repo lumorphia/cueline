@@ -2,6 +2,10 @@
 import { z } from "zod";
 import { LIMITS } from "./limits.ts";
 
+// zod 4 は速く検証するために new Function を試す。CSP (script-src 'self'、Trusted Types) の下では違反になるので使わせない
+// (docs/design/07-security.md)。スキーマを作るときに読まれるので、スキーマの定義より前に設定する
+z.config({ jitless: true });
+
 const id = z.string().regex(/^[a-z0-9][a-z0-9-]{0,63}$/);
 const tagId = z.string().regex(/^[a-z0-9][a-z0-9-]{0,31}$/);
 const name = z.string().min(1).max(100);
