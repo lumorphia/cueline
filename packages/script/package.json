@@ -1,0 +1,19 @@
+{
+  "name": "@timeline-call/script",
+  "version": "0.0.0",
+  "private": true,
+  "description": "タイムラインスクリプトのスキーマ (zod)、YAML / JSON の読み書き、検証、展開 (docs/design/02)",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  }
+}
