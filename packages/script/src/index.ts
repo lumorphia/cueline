@@ -24,4 +24,5 @@ export type {
   ScriptPhase,
   ScriptTag,
 } from "./script.ts";
+export { SCRIPT_ISSUE_CODES } from "./issues.ts";
 export type { IssuePath, ScriptIssue, ScriptIssueCode } from "./issues.ts";
