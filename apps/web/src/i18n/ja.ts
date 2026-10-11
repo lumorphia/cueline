@@ -181,6 +181,16 @@ export const ja = {
   "library.new": "新しく作る",
   "library.edit": "直す",
   "library.newName": "新しいタイムライン",
+  "recorder.open": "記録して作る",
+  "recorder.title": "記録して作る",
+  "recorder.finish": "終えて表に足す",
+  "recorder.cancel": "やめる",
+  "recorder.hint":
+    "動画や実戦に合わせてプルか開始を押し、ギミックが来た瞬間に「いま」を押します (Space でも押せます)。名前とコールは後で表で直します",
+  "recorder.target": "足すフェーズ",
+  "recorder.newPhase": "新しいフェーズ {n} (手動)",
+  "recorder.now": "い ま",
+  "recorder.nextPhase": "次のフェーズ",
 } as const;
 
 export type MessageKey = keyof typeof ja;

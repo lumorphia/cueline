@@ -29,6 +29,7 @@ import {
   updatePhase,
 } from "./draft.ts";
 import { Issues, NumberField, SelectField, SmallButton, TextField, TimeField } from "./fields.tsx";
+import { RecorderPanel } from "./recorder-panel.tsx";
 import { issuesAt, validateDraft } from "./validate.ts";
 
 type Props = {
@@ -51,6 +52,7 @@ export function EditorView({ initial, hadComments, onSave, onClose }: Props) {
   const [dirty, setDirty] = useState(false);
   const [saved, setSaved] = useState<"idle" | "saved" | "failed">("idle");
   const [newTag, setNewTag] = useState("");
+  const [recording, setRecording] = useState(false);
   const { errors, warnings } = useMemo(() => validateDraft(draft), [draft]);
   const at = (path: IssuePath) =>
     issuesAt(errors, path).filter((i) => i.path.length === path.length);
@@ -79,10 +81,24 @@ export function EditorView({ initial, hadComments, onSave, onClose }: Props) {
   // 欄に結びつかない問題 (フェーズの並び、全体の数など) は上にまとめて出す
   const general = errors.filter((i) => i.path.length <= 1);
 
+  if (recording) {
+    return (
+      <RecorderPanel
+        script={draft}
+        onDone={(next) => {
+          change(next);
+          setRecording(false);
+        }}
+        onCancel={() => setRecording(false)}
+      />
+    );
+  }
+
   return (
     <section className="flex flex-col gap-4" data-testid="editor">
       <div className="flex flex-wrap items-center gap-2">
         <h2 className="mr-auto text-base font-semibold">{t("editor.title")}</h2>
+        <SmallButton onClick={() => setRecording(true)}>{t("recorder.open")}</SmallButton>
         <SmallButton tone="strong" onClick={save} disabled={errors.length > 0}>
           {t("editor.save")}
         </SmallButton>
