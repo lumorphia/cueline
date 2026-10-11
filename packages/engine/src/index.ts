@@ -1,2 +1,14 @@
-// エンジン (docs/design/03-engine.md)。中身は M2 の RM-21 で作る
-export {};
+// エンジン (docs/design/03-engine.md)
+export { createEngine } from "./engine.ts";
+export type {
+  Clock,
+  Engine,
+  EngineOptions,
+  EngineSnapshot,
+  EngineState,
+  RewindPolicy,
+  Timer,
+  TimerHandle,
+  UpcomingEvent,
+  UpcomingNotification,
+} from "./engine.ts";
