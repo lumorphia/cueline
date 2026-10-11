@@ -24,16 +24,16 @@
 
 ## M1 骨組みと PoC
 
-| RM    | 中身                                                                                                                            | 状態                                                                          |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| RM-10 | monorepo の骨組み (pnpm、TypeScript、ESLint の boundaries とそのテスト、Prettier、vitest、Playwright、husky + gitleaks)         | 済                                                                            |
-| RM-11 | CI (lint → format → typecheck → coverage 付きテスト → build → E2E)、release-please、Renovate                                    | 済                                                                            |
-| RM-12 | Cloudflare の配信 (wrangler、PR ごとのプレビュー、応答ヘッダー)                                                                 | 一部 (計測ページのプレビュー `timeline-call-spikes` だけ)                     |
-| RM-13 | PoC-001 タイマーの精度                                                                                                          | 済 (`docs/spikes/poc-001-timer.md`、ADR-0013)                                 |
-| RM-14 | PoC-002 Web Speech                                                                                                              | PC は済。iPhone の cancel の直後が残り (`docs/spikes/poc-002-speech.md`)      |
-| RM-15 | PoC-003 VOICEVOX との接続                                                                                                       | 未着手 (M3 の前に)                                                            |
-| RM-16 | PoC-004 音声のキャッシュ                                                                                                        | 未着手 (M3 の前に)                                                            |
-| RM-17 | PoC の結果で、許容値 (要件 14 章 6)・Worker の採否・`lateToleranceMs`・競合の既定を決め、ADR と設計書に戻す (ADR-0006 の仮の値) | 一部 (Worker の採否と競合の既定は決めた。`lateToleranceMs` は仮の 2 秒のまま) |
+| RM    | 中身                                                                                                                            | 状態                                                                                                  |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| RM-10 | monorepo の骨組み (pnpm、TypeScript、ESLint の boundaries とそのテスト、Prettier、vitest、Playwright、husky + gitleaks)         | 済                                                                                                    |
+| RM-11 | CI (lint → format → typecheck → coverage 付きテスト → build → E2E)、release-please、Renovate                                    | 済                                                                                                    |
+| RM-12 | Cloudflare の配信 (wrangler、PR ごとのプレビュー、応答ヘッダー)                                                                 | 一部 (本体を workers.dev に載せた。PR ごとのプレビューは GitHub との接続待ち、docs/runbook/deploy.md) |
+| RM-13 | PoC-001 タイマーの精度                                                                                                          | 済 (`docs/spikes/poc-001-timer.md`、ADR-0013)                                                         |
+| RM-14 | PoC-002 Web Speech                                                                                                              | PC は済。iPhone の cancel の直後が残り (`docs/spikes/poc-002-speech.md`)                              |
+| RM-15 | PoC-003 VOICEVOX との接続                                                                                                       | 未着手 (M3 の前に)                                                                                    |
+| RM-16 | PoC-004 音声のキャッシュ                                                                                                        | 未着手 (M3 の前に)                                                                                    |
+| RM-17 | PoC の結果で、許容値 (要件 14 章 6)・Worker の採否・`lateToleranceMs`・競合の既定を決め、ADR と設計書に戻す (ADR-0006 の仮の値) | 一部 (Worker の採否と競合の既定は決めた。`lateToleranceMs` は仮の 2 秒のまま)                         |
 
 RM-13〜16 は計測ページのプレビュー (`spikes/wrangler.jsonc`) の上で測る (HTTPS が要る)。RM-15・16 は VOICEVOX を使う M3 の前に済ませればよい。
 

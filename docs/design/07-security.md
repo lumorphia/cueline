@@ -17,6 +17,8 @@
 
 ## 応答ヘッダー (Cloudflare)
 
+正本は `apps/web/public/_headers`。中身の規則は `tooling/headers.test.ts`、配られていることは E2E (`e2e/headers.spec.ts`) が確かめる。
+
 ```
 Content-Security-Policy:
   default-src 'none';
