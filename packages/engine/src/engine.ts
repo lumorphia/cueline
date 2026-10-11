@@ -52,6 +52,8 @@ export type EngineSnapshot = {
   phase: { id: string; name: string; phaseMs: number } | null;
   upcoming: readonly UpcomingNotification[];
   upcomingEvents: readonly UpcomingEvent[];
+  /** 次に始められる manual のフェーズ (画面の「フェーズを開始」のボタン)。今のフェーズの残りの数によらない */
+  nextManualPhase: { id: string; name: string } | null;
   fired: ReadonlySet<NotificationId>;
   skipped: ReadonlySet<NotificationId>;
   canUndo: boolean;
@@ -382,6 +384,7 @@ export function createEngine(options: EngineOptions): Engine {
         0,
         count,
       ),
+      nextManualPhase: nextManual ? { id: nextManual.id, name: nextManual.name } : null,
       fired: core.fired,
       skipped: core.skipped,
       canUndo: core.undo !== null,
