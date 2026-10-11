@@ -9,7 +9,13 @@ import { detectFormat, exportScript, importScript } from "./library.ts";
 import type { Format, ImportRequest } from "./library.ts";
 import type { ScriptRecord, ScriptStore } from "./store.ts";
 
-type Props = { store: ScriptStore; memoryOnly: boolean; onOpen: (record: ScriptRecord) => void };
+type Props = {
+  store: ScriptStore;
+  memoryOnly: boolean;
+  onOpen: (record: ScriptRecord) => void;
+  onEdit: (record: ScriptRecord) => void;
+  onCreate: () => void;
+};
 
 type Outcome =
   | { kind: "invalid"; issues: readonly ScriptIssue[] }
@@ -33,7 +39,7 @@ function download(file: { filename: string; text: string; type: string }) {
   URL.revokeObjectURL(url);
 }
 
-export function LibraryView({ store, memoryOnly, onOpen }: Props) {
+export function LibraryView({ store, memoryOnly, onOpen, onEdit, onCreate }: Props) {
   const { t, language } = useI18n();
   const [records, setRecords] = useState<readonly ScriptRecord[]>([]);
   const [pasted, setPasted] = useState("");
@@ -98,6 +104,7 @@ export function LibraryView({ store, memoryOnly, onOpen }: Props) {
               <Action strong onClick={() => onOpen(r)}>
                 {t("library.open")}
               </Action>
+              <Action onClick={() => onEdit(r)}>{t("library.edit")}</Action>
               <Action onClick={() => exportAs(r, "yaml")}>{t("library.exportYaml")}</Action>
               <Action onClick={() => exportAs(r, "json")}>{t("library.exportJson")}</Action>
               <Action
@@ -112,6 +119,12 @@ export function LibraryView({ store, memoryOnly, onOpen }: Props) {
           ))}
         </ul>
       )}
+
+      <div>
+        <Action strong onClick={onCreate}>
+          {t("library.new")}
+        </Action>
+      </div>
 
       <div className="flex flex-col gap-2 rounded-lg border border-neutral-500/30 p-3">
         <h3 className="text-sm font-semibold">{t("library.import")}</h3>
