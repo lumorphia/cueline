@@ -15,6 +15,9 @@ export type PlayerSettings = {
   voice: VoiceSettings;
   /** 聞くタグ。null は全部 */
   chosenTags: ReadonlySet<string> | null;
+  /** 何 ms 早く話し始めるか (テスト再生で測った立ち上がりの遅れ) */
+  lookaheadMs: number;
+  upcomingCount: number;
 };
 
 export type RecentCall = { notification: TimelineNotification; result: "fired" | "skipped" };
@@ -59,6 +62,7 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
       clock: { now: () => performance.now() },
       timer,
       rewindPolicy: settings.rewindPolicy,
+      lookaheadMs: settings.lookaheadMs,
       onFire(notification, dueAtMono) {
         if (!shouldPlay(notification, settingsRef.current.chosenTags)) return;
         remember(notification, "fired");
@@ -84,7 +88,7 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
 
     let frame = 0;
     const tick = () => {
-      setSnapshot(engine.snapshot(5));
+      setSnapshot(engine.snapshot(settingsRef.current.upcomingCount));
       setBanner((b) => (b && b.until < performance.now() ? null : b));
       frame = requestAnimationFrame(tick);
     };
@@ -103,8 +107,8 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
       engineRef.current = null;
       arbiterRef.current = null;
     };
-    // 競合の方式と戻し方はエンジンと Arbiter を作るときに決まる。変わったら作り直す
-  }, [timeline, settings.conflict, settings.rewindPolicy]);
+    // 競合の方式、戻し方、先に話す時間はエンジンと Arbiter を作るときに決まる。変わったら作り直す
+  }, [timeline, settings.conflict, settings.rewindPolicy, settings.lookaheadMs]);
 
   /** スマホの音のアンロック (ADR-0009)。ボタンの押下の中で呼ぶ */
   const unlock = useCallback(() => {

@@ -8,17 +8,22 @@ import { formatClock, formatRemaining } from "./format.ts";
 import { usePlayer } from "./use-player.ts";
 import type { PlayerSettings } from "./use-player.ts";
 
-const NUDGE_MS = 1000;
 const STOP_HOLD_MS = 1000;
 const SYNC_BUTTONS = 3;
 
-type Props = { timeline: Timeline; settings: PlayerSettings; countdownSeconds: number };
+type Props = {
+  timeline: Timeline;
+  settings: PlayerSettings;
+  countdownSeconds: number;
+  nudgeMs: number;
+  onTagsChange: (tags: readonly string[] | null) => void;
+};
 
-export function Player({ timeline, settings, countdownSeconds }: Props) {
+export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsChange }: Props) {
   const { t } = useI18n();
   const player = usePlayer(timeline, settings);
   const s = player.snapshot;
-  useShortcuts(player);
+  useShortcuts(player, nudgeMs);
   const eventName = (eventId: string) =>
     timeline.phases.flatMap((p) => p.events).find((e) => e.id === eventId)?.name ?? eventId;
 
@@ -47,6 +52,7 @@ export function Player({ timeline, settings, countdownSeconds }: Props) {
         </div>
       </header>
 
+      <TagChooser timeline={timeline} chosen={settings.chosenTags} onChange={onTagsChange} />
       {!player.speech && <Notice tone="info">{t("player.noSpeech")}</Notice>}
       {player.missed && <Notice tone="warn">{t("player.missed")}</Notice>}
       {player.banner && (
@@ -126,11 +132,11 @@ export function Player({ timeline, settings, countdownSeconds }: Props) {
           )}
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button onClick={() => player.nudge(-NUDGE_MS)} disabled={s.state === "ready"}>
-            {t("player.nudgeBack", { seconds: NUDGE_MS / 1000 })}
+          <Button onClick={() => player.nudge(-nudgeMs)} disabled={s.state === "ready"}>
+            {t("player.nudgeBack", { seconds: nudgeMs / 1000 })}
           </Button>
-          <Button onClick={() => player.nudge(NUDGE_MS)} disabled={s.state === "ready"}>
-            {t("player.nudgeForward", { seconds: NUDGE_MS / 1000 })}
+          <Button onClick={() => player.nudge(nudgeMs)} disabled={s.state === "ready"}>
+            {t("player.nudgeForward", { seconds: nudgeMs / 1000 })}
           </Button>
           <Button onClick={player.undo} disabled={!s.canUndo}>
             {t("player.undo")}
@@ -225,7 +231,7 @@ function Notice({ children, tone }: { children: ReactNode; tone: "info" | "warn"
 }
 
 /** 別モニタのブラウザに入力を戻したときだけ効く補助 (05 の「操作の割り当て」) */
-function useShortcuts(player: ReturnType<typeof usePlayer>) {
+function useShortcuts(player: ReturnType<typeof usePlayer>, nudgeMs: number) {
   const ref = useRef(player);
   ref.current = player;
   useEffect(() => {
@@ -236,11 +242,58 @@ function useShortcuts(player: ReturnType<typeof usePlayer>) {
         e.preventDefault();
         if (p.snapshot?.state === "paused") p.resume();
         else p.pause();
-      } else if (e.key === "ArrowLeft") p.nudge(-NUDGE_MS);
-      else if (e.key === "ArrowRight") p.nudge(NUDGE_MS);
+      } else if (e.key === "ArrowLeft") p.nudge(-nudgeMs);
+      else if (e.key === "ArrowRight") p.nudge(nudgeMs);
       else if (e.key === "z" || e.key === "Z") p.undo();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [nudgeMs]);
+}
+
+/** 聞くタグ (要件 FR-006)。スクリプトがタグを持つときだけ出す。何も選んでいなければ全部 */
+function TagChooser({
+  timeline,
+  chosen,
+  onChange,
+}: {
+  timeline: Timeline;
+  chosen: ReadonlySet<string> | null;
+  onChange: (tags: readonly string[] | null) => void;
+}) {
+  const { t } = useI18n();
+  const tags = timeline.metadata.tags;
+  if (tags.length === 0) return null;
+  const toggle = (id: string) => {
+    const next = new Set(chosen ?? []);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    onChange(next.size === 0 ? null : [...next]);
+  };
+  const chip = (active: boolean) =>
+    `min-h-10 rounded-full px-3 text-sm ${active ? "bg-sky-600 text-white" : "bg-neutral-500/20"}`;
+  return (
+    <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t("player.tags")}>
+      <span className="text-xs opacity-60">{t("player.tags")}</span>
+      <button
+        type="button"
+        aria-pressed={chosen === null}
+        className={chip(chosen === null)}
+        onClick={() => onChange(null)}
+      >
+        {t("player.allTags")}
+      </button>
+      {tags.map((tag) => (
+        <button
+          key={tag.id}
+          type="button"
+          aria-pressed={chosen?.has(tag.id) ?? false}
+          className={chip(chosen?.has(tag.id) ?? false)}
+          onClick={() => toggle(tag.id)}
+        >
+          {tag.label}
+        </button>
+      ))}
+    </div>
+  );
 }
