@@ -66,6 +66,13 @@ apps/web ──┬─ タグの絞り込み、有効/無効
 - 新しい版を見つけたら知らせるだけにし、利用者が「更新」を押したときに入れ替える。**再生中は入れ替えない** (コールが途中で止まるため)
 - `manifest.webmanifest` でホーム画面に追加できるようにする (ADR-0009)
 
+実装 (RM-28):
+
+- Service Worker は `apps/web/src/pwa/service-worker.ts`。ビルドのときに `vite.config.ts` のプラグインが `/sw.js` として出し、その版のファイルの一覧 (`index.html` は `/`、`public/` のアイコンと manifest も) を埋め込む。一覧から cache の名前 (`tc-<hash>`) を決めるので、版が変わると新しい cache になり、古いものは activate で消す
+- どのリクエストを保存から返すかは `strategy.ts`。同じオリジンの GET だけ。ページの移動は保存した `/`、保存したファイルは cache を先に、ほか (VOICEVOX など他のサイト) は network
+- `skipWaiting` はしない。新しい版は待たせ、画面の「更新」で入れ替える。カウント中・戦闘中は「更新」を押せない。`/sw.js` は `Cache-Control: no-cache`
+- 登録 (`navigator.serviceWorker.register`) も Trusted Types が止める先なので、Worker と同じポリシー (同じオリジンだけ) を通す
+
 ## デスクトップ版 (P2) への道
 
 `apps/desktop` (Tauri) を足し、`apps/web` のビルドを WebView で開く。engine と script はそのまま使う。オーバーレイは ADR-0005 の外にあり、作る前に別に判断する。
