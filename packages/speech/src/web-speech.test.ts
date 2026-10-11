@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { chooseVoice, createWebSpeechProvider, sortVoices, unlockAudio } from "./web-speech.ts";
-import type { SynthLike, UtteranceLike, VoiceLike } from "./web-speech.ts";
+import type { SynthLike, UtteranceConstructor, VoiceLike } from "./web-speech.ts";
 import type { Call } from "./provider.ts";
 
 const voice = (name: string, lang: string, localService = true): VoiceLike => ({
@@ -54,29 +54,32 @@ describe("sortVoices", () => {
   });
 });
 
-// 偽の speechSynthesis。話されたものを覚え、start / end はテストが起こす
+// 偽の speechSynthesis。話されたものを覚え、start / end はテストが起こす。
+// ブラウザの型 (SpeechSynthesis) の全部は作らないので、渡すときに型を合わせる
+class FakeUtterance {
+  voice: VoiceLike | null = null;
+  lang = "";
+  rate = 1;
+  volume = 1;
+  pitch = 1;
+  onstart: (() => void) | null = null;
+  onend: (() => void) | null = null;
+  onerror: ((e: { error: string }) => void) | null = null;
+  text: string;
+  constructor(text: string) {
+    this.text = text;
+  }
+}
+
 function fakeSynth(voices: VoiceLike[] = VOICES) {
-  const spoken: UtteranceLike[] = [];
+  const spoken: FakeUtterance[] = [];
   let cancels = 0;
-  const synth: SynthLike = {
-    speak: (u) => void spoken.push(u),
+  const synth = {
+    speak: (u: FakeUtterance) => void spoken.push(u),
     cancel: () => void (cancels += 1),
     getVoices: () => voices,
-  };
-  class Utterance implements UtteranceLike {
-    voice: VoiceLike | null = null;
-    lang = "";
-    rate = 1;
-    volume = 1;
-    pitch = 1;
-    onstart: (() => void) | null = null;
-    onend: (() => void) | null = null;
-    onerror: ((e: { error: string }) => void) | null = null;
-    text: string;
-    constructor(text: string) {
-      this.text = text;
-    }
-  }
+  } as unknown as SynthLike;
+  const Utterance = FakeUtterance as unknown as UtteranceConstructor;
   return { synth, Utterance, spoken, cancels: () => cancels };
 }
 

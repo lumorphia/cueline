@@ -7,25 +7,10 @@ export type VoiceLike = Pick<
   "name" | "lang" | "localService" | "voiceURI" | "default"
 >;
 
-export type UtteranceLike = {
-  text: string;
-  voice: VoiceLike | null;
-  lang: string;
-  rate: number;
-  volume: number;
-  pitch: number;
-  onstart: (() => void) | null;
-  onend: (() => void) | null;
-  onerror: ((event: { error: string }) => void) | null;
-};
+/** speechSynthesis のうち、使うところだけ */
+export type SynthLike = Pick<SpeechSynthesis, "speak" | "cancel" | "getVoices">;
 
-export type SynthLike = {
-  speak(utterance: UtteranceLike): void;
-  cancel(): void;
-  getVoices(): readonly VoiceLike[];
-};
-
-export type UtteranceConstructor = new (text: string) => UtteranceLike;
+export type UtteranceConstructor = new (text: string) => SpeechSynthesisUtterance;
 
 export type VoiceSettings = {
   /** 選んだ声。null ならスクリプトの言語に合う端末の声 */
@@ -40,7 +25,7 @@ const sameLanguage = (voice: VoiceLike, language: string) =>
   primary(voice.lang) === primary(language);
 
 /** 言語の合う声を先に、その中で端末の声をオンラインの声より先に並べる */
-export function sortVoices(voices: readonly VoiceLike[], language: string): VoiceLike[] {
+export function sortVoices<V extends VoiceLike>(voices: readonly V[], language: string): V[] {
   const rank = (v: VoiceLike) => (sameLanguage(v, language) ? 0 : 2) + (v.localService ? 0 : 1);
   return voices
     .map((voice, index) => ({ voice, index }))
@@ -52,11 +37,11 @@ export function sortVoices(voices: readonly VoiceLike[], language: string): Voic
  * 使う声を決める。選んだ声が無ければ、言語の合う端末の声にし、fallback で知らせる (画面に出す)。
  * 言語の合う声が 1 つも無ければ、ブラウザに任せる (voice: null)
  */
-export function chooseVoice(
-  voices: readonly VoiceLike[],
+export function chooseVoice<V extends VoiceLike>(
+  voices: readonly V[],
   voiceURI: string | null,
   language: string,
-): { voice: VoiceLike | null; fallback: boolean } {
+): { voice: V | null; fallback: boolean } {
   const chosen = voiceURI === null ? undefined : voices.find((v) => v.voiceURI === voiceURI);
   if (chosen) return { voice: chosen, fallback: false };
   const [best] = sortVoices(voices, language).filter((v) => sameLanguage(v, language));
@@ -77,7 +62,7 @@ export type WebSpeechProvider = SpeechProvider & {
 export function createWebSpeechProvider(options: WebSpeechOptions): WebSpeechProvider {
   const { synth, Utterance, settings, now } = options;
   // Chrome は参照の無い utterance を回収して onend を出さないことがあるので、終わるまで持っておく
-  const alive = new Set<UtteranceLike>();
+  const alive = new Set<SpeechSynthesisUtterance>();
 
   function utter(text: string, language: string, callbacks: ProviderCallbacks) {
     const s = settings();
