@@ -123,4 +123,8 @@ export const en: Record<MessageKey, string> = {
   "player.tags": "Tags to hear",
   "player.allTags": "All",
   "app.back": "Back",
+  "player.wakeLockUnavailable":
+    "This device cannot keep the screen on. Make the auto-lock time longer in the device settings",
+  "player.wakeLockLost":
+    "The screen may lock again. It will be kept on when you come back to this page",
 };

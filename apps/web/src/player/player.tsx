@@ -54,11 +54,17 @@ export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsCh
 
       <TagChooser timeline={timeline} chosen={settings.chosenTags} onChange={onTagsChange} />
       {!player.speech && <Notice tone="info">{t("player.noSpeech")}</Notice>}
+      {flowing && (player.wakeLock === "unsupported" || player.wakeLock === "denied") && (
+        <Notice tone="info">{t("player.wakeLockUnavailable")}</Notice>
+      )}
+      {flowing && player.wakeLock === "lost" && (
+        <Notice tone="warn">{t("player.wakeLockLost")}</Notice>
+      )}
       {player.missed && <Notice tone="warn">{t("player.missed")}</Notice>}
       {player.banner && (
         <p
           role="alert"
-          className="rounded-lg bg-amber-400 px-4 py-6 text-center text-4xl font-bold text-black"
+          className="rounded-lg bg-amber-400 px-4 py-3 text-center text-3xl font-bold text-black sm:py-6 sm:text-4xl"
         >
           {player.banner}
         </p>
@@ -78,10 +84,15 @@ export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsCh
                 <span className="w-14 shrink-0 text-right font-mono tabular-nums">
                   {formatRemaining(u.remainingMs)}
                 </span>
-                <span className="shrink-0 font-semibold">{eventName(u.notification.eventId)}</span>
-                <span className="truncate opacity-80">「{u.notification.text}」</span>
+                {/* スマホではイベント名と文を 2 段にする (文が切れないように) */}
+                <span className="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-baseline sm:gap-3">
+                  <span className="font-semibold">{eventName(u.notification.eventId)}</span>
+                  <span className="text-[0.85em] opacity-80 sm:truncate">
+                    「{u.notification.text}」
+                  </span>
+                </span>
                 {u.notification.tags.length > 0 && (
-                  <span className="ml-auto shrink-0 text-xs opacity-60">
+                  <span className="shrink-0 text-xs opacity-60">
                     {u.notification.tags.join(" ")}
                   </span>
                 )}
@@ -107,8 +118,18 @@ export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsCh
         )}
       </div>
 
-      <nav className="flex flex-col gap-2" aria-label="controls">
-        <div className="flex flex-wrap gap-2">
+      <nav className="controls-bar flex shrink-0 flex-col gap-2 pt-1" aria-label="controls">
+        {/* フェーズの開始は先頭に置く (敵の体力で急に来る)。イベント同期は横 1 列で、はみ出したら横にスクロールする */}
+        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [&>button]:shrink-0">
+          {nextManual && (
+            <Button
+              tone="strong"
+              onClick={() => player.startPhase(nextManual.id)}
+              disabled={s.state !== "running" && s.state !== "paused"}
+            >
+              {t("player.startPhase", { name: nextManual.name })}
+            </Button>
+          )}
           {s.upcomingEvents
             .filter((e) => e.atMs !== null)
             .slice(0, SYNC_BUTTONS)
@@ -121,17 +142,8 @@ export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsCh
                 {t("player.syncNow", { name: e.event.name })}
               </Button>
             ))}
-          {nextManual && (
-            <Button
-              tone="strong"
-              onClick={() => player.startPhase(nextManual.id)}
-              disabled={s.state !== "running" && s.state !== "paused"}
-            >
-              {t("player.startPhase", { name: nextManual.name })}
-            </Button>
-          )}
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-4 gap-2 [&>button]:text-sm sm:[&>button]:text-base">
           <Button onClick={() => player.nudge(-nudgeMs)} disabled={s.state === "ready"}>
             {t("player.nudgeBack", { seconds: nudgeMs / 1000 })}
           </Button>
@@ -141,8 +153,11 @@ export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsCh
           <Button onClick={player.undo} disabled={!s.canUndo}>
             {t("player.undo")}
           </Button>
+          <HoldButton onHold={player.stop} disabled={s.state === "ready"}>
+            {t("player.stop")}
+          </HoldButton>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <Button
             tone="strong"
             onClick={() => player.startCountdown(countdownSeconds)}
@@ -160,9 +175,6 @@ export function Player({ timeline, settings, countdownSeconds, nudgeMs, onTagsCh
               {t("player.pause")}
             </Button>
           )}
-          <HoldButton onHold={player.stop} disabled={s.state === "ready"}>
-            {t("player.stop")}
-          </HoldButton>
         </div>
       </nav>
     </section>
@@ -186,7 +198,7 @@ function Button({ children, onClick, disabled = false, tone = "normal" }: Button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`min-h-12 min-w-12 rounded-lg px-4 text-base disabled:opacity-40 ${color}`}
+      className={`min-h-12 min-w-12 rounded-lg px-3 text-base leading-tight disabled:opacity-40 ${color}`}
     >
       {children}
     </button>
@@ -218,7 +230,7 @@ function HoldButton({
       }}
       onPointerUp={cancel}
       onPointerLeave={cancel}
-      className="min-h-12 rounded-lg bg-red-600/80 px-4 text-white disabled:opacity-40"
+      className="min-h-12 rounded-lg bg-red-600/80 px-2 text-sm leading-tight text-white disabled:opacity-40"
     >
       {children}
     </button>

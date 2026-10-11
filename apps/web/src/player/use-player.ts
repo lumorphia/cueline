@@ -8,6 +8,8 @@ import type { Arbiter, ConflictMode, VoiceSettings } from "@timeline-call/speech
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createWorkerTimer } from "../timer/worker-timer.ts";
 import { shouldPlay } from "./tag-filter.ts";
+import { createWakeLock } from "./wake-lock.ts";
+import type { WakeLockStatus } from "./wake-lock.ts";
 
 export type PlayerSettings = {
   conflict: ConflictMode;
@@ -34,6 +36,7 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
   const [banner, setBanner] = useState<{ text: string; until: number } | null>(null);
   const [missed, setMissed] = useState(false);
   const [recent, setRecent] = useState<readonly RecentCall[]>([]);
+  const [wakeLock, setWakeLock] = useState<WakeLockStatus>("off");
   const engineRef = useRef<Engine | null>(null);
   const arbiterRef = useRef<Arbiter | null>(null);
   const audioRef = useRef<AudioContext | null>(null);
@@ -54,6 +57,12 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
     const arbiter = provider
       ? createArbiter({ mode: settings.conflict, provider, now: () => performance.now() })
       : null;
+    // カウント中と戦闘中は、画面の自動ロックを止める (FR-208)
+    const wake = createWakeLock({
+      navigator,
+      document,
+      onStatus: setWakeLock,
+    });
     const remember = (notification: TimelineNotification, result: RecentCall["result"]) =>
       setRecent((list) => [{ notification, result }, ...list].slice(0, 3));
 
@@ -63,6 +72,10 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
       timer,
       rewindPolicy: settings.rewindPolicy,
       lookaheadMs: settings.lookaheadMs,
+      onStateChange(state) {
+        if (state === "countdown" || state === "running") wake.hold();
+        else wake.release();
+      },
       onFire(notification, dueAtMono) {
         if (!shouldPlay(notification, settingsRef.current.chosenTags)) return;
         remember(notification, "fired");
@@ -104,6 +117,7 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
       engine.stop();
       arbiter?.cancelAll();
       timer.dispose();
+      wake.dispose();
       engineRef.current = null;
       arbiterRef.current = null;
     };
@@ -137,6 +151,7 @@ export function usePlayer(timeline: Timeline, settings: PlayerSettings) {
     banner: banner?.text ?? null,
     missed,
     recent,
+    wakeLock,
     speech: speechAvailable(),
     startCountdown: (seconds: number) => act((e) => e.startCountdown(seconds), { unlock: true }),
     start: () => act((e) => e.start(), { unlock: true }),
