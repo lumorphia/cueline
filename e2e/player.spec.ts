@@ -64,3 +64,12 @@ test("switches the screen to English", async ({ page }) => {
   await page.getByRole("button", { name: "English" }).click();
   await expect(page.getByRole("button", { name: "Pull 15s" })).toBeVisible();
 });
+
+test("pauses with the space key and nudges with the arrow keys", async ({ page }) => {
+  await page.getByRole("button", { name: "開始", exact: true }).click();
+  await page.keyboard.press("Space");
+  await expect(page.getByTestId("state")).toHaveText("一時停止");
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByTestId("clock")).toHaveText(/^00:02\.\d$/);
+});
