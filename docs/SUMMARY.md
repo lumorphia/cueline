@@ -13,4 +13,5 @@
 | 安全                           | [design/07-security.md](design/07-security.md)               |
 | 技術検証                       | [design/08-poc.md](design/08-poc.md)                         |
 | 次に何をやるか                 | [design/09-roadmap.md](design/09-roadmap.md)                 |
+| MVP の完了条件の確かめ方       | [design/10-mvp-acceptance.md](design/10-mvp-acceptance.md)   |
 | なぜそう決めたか               | [adr/](adr/README.md)                                        |

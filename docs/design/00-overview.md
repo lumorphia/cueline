@@ -47,3 +47,4 @@
 | [07-security](07-security.md)               | スクリプトの安全、CSP、外への通信                |
 | [08-poc](08-poc.md)                         | 技術検証 (PoC-001〜004) の手順と合否             |
 | [09-roadmap](09-roadmap.md)                 | マイルストーンと RM-xx                           |
+| [10-mvp-acceptance](10-mvp-acceptance.md)   | MVP の完了条件と、それを確かめるテスト           |
