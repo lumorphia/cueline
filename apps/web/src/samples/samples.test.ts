@@ -1,4 +1,4 @@
-import { parseScript } from "@timeline-call/script";
+import { parseScript } from "@cueline/script";
 import { describe, expect, it } from "vitest";
 import text from "./crystal-golem.yaml?raw";
 

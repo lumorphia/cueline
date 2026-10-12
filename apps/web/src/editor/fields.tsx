@@ -1,5 +1,5 @@
 // エディタの入力欄。問題 (ScriptIssue) があれば欄の下に直し方を出す
-import type { ScriptIssue } from "@timeline-call/script";
+import type { ScriptIssue } from "@cueline/script";
 import { useEffect, useId, useState } from "react";
 import type { ReactNode } from "react";
 import { useI18n } from "../i18n/context.tsx";

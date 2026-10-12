@@ -5,7 +5,7 @@ import type { MessageKey } from "./ja.ts";
 import { detectLanguage, translate } from "./translate.ts";
 import type { Language, Params } from "./translate.ts";
 
-const STORAGE_KEY = "tc:language";
+const STORAGE_KEY = "cueline:language";
 
 function initialLanguage(): Language {
   try {

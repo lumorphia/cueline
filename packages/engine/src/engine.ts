@@ -5,7 +5,7 @@ import type {
   Timeline,
   TimelineEvent,
   TimelineNotification,
-} from "@timeline-call/script";
+} from "@cueline/script";
 
 export type Clock = { now(): number };
 export type TimerHandle = unknown;

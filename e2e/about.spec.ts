@@ -11,7 +11,7 @@ test("explains that the app never touches the game and is unofficial", async ({ 
   await expect(about).toContainText("FINAL FANTASY XIV © SQUARE ENIX");
   await expect(
     about.getByRole("link", { name: "弱点を見つけたら (非公開の報告)" }),
-  ).toHaveAttribute("href", "https://github.com/lumorphia/timeline-call/security/advisories/new");
+  ).toHaveAttribute("href", "https://github.com/lumorphia/cueline/security/advisories/new");
 });
 
 test("goes back to the library from the about screen", async ({ page }) => {

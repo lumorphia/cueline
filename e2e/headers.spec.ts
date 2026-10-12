@@ -15,5 +15,5 @@ test("serves hashed assets with a long cache", async ({ page, request }) => {
 
 test("falls back to the page for an unknown path", async ({ page }) => {
   await page.goto("/play/unknown");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Timeline Call (仮称)");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("CueLine");
 });

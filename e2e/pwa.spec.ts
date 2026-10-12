@@ -15,7 +15,7 @@ test("opens without a network after the first visit", async ({ page, context }) 
   await controlled(page);
   await context.setOffline(true);
   await page.reload();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Timeline Call (仮称)");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("CueLine");
   await page.getByRole("button", { name: "サンプルを開く" }).click();
   await expect(page.getByTestId("clock")).toBeVisible();
   await context.setOffline(false);
@@ -25,7 +25,7 @@ test("opens any page path without a network", async ({ page, context }) => {
   await controlled(page);
   await context.setOffline(true);
   await page.goto("/somewhere/else");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Timeline Call (仮称)");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("CueLine");
   await context.setOffline(false);
 });
 

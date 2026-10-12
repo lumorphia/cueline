@@ -45,7 +45,7 @@ describe("loadSettings", () => {
   });
 
   it("gives the defaults for text that is not JSON", () => {
-    expect(loadSettings(storage({ "tc:settings": "{oops" }))).toEqual(DEFAULT_SETTINGS);
+    expect(loadSettings(storage({ "cueline:settings": "{oops" }))).toEqual(DEFAULT_SETTINGS);
   });
 
   it("gives the defaults for values out of range", () => {
@@ -53,12 +53,12 @@ describe("loadSettings", () => {
       ...DEFAULT_SETTINGS,
       voice: { ...DEFAULT_SETTINGS.voice, rate: 9 },
     });
-    expect(loadSettings(storage({ "tc:settings": saved }))).toEqual(DEFAULT_SETTINGS);
+    expect(loadSettings(storage({ "cueline:settings": saved }))).toEqual(DEFAULT_SETTINGS);
   });
 
   it("gives the defaults for another version", () => {
     const saved = JSON.stringify({ ...DEFAULT_SETTINGS, version: 2 });
-    expect(loadSettings(storage({ "tc:settings": saved }))).toEqual(DEFAULT_SETTINGS);
+    expect(loadSettings(storage({ "cueline:settings": saved }))).toEqual(DEFAULT_SETTINGS);
   });
 
   it("gives the defaults when the storage cannot be read", () => {

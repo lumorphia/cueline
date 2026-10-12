@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createArbiter } from "./arbiter.ts";
 import type { ArbiterEvent, ConflictMode } from "./arbiter.ts";
 import type { Call, ProviderCallbacks, SpeechProvider } from "./provider.ts";
-import type { Priority } from "@timeline-call/script";
+import type { Priority } from "@cueline/script";
 
 // 偽のプロバイダ。話したものを覚え、終わらせるのはテストが行う。
 // cancel した読み上げの interrupted は、実際のブラウザと同じく後から届く (deliverCancelled で届ける。PoC-002)

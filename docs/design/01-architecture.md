@@ -5,9 +5,9 @@
 pnpm の monorepo (ADR-0004)。
 
 ```
-packages/script   @timeline-call/script   スキーマ (zod)、YAML / JSON の読み書き、検証、展開、マイグレーション
-packages/engine   @timeline-call/engine   論理時計、スケジューラ、再生の状態機械
-packages/speech   @timeline-call/speech   SpeechProvider の境界と実装、コールの競合 (Call Arbiter)
+packages/script   @cueline/script   スキーマ (zod)、YAML / JSON の読み書き、検証、展開、マイグレーション
+packages/engine   @cueline/engine   論理時計、スケジューラ、再生の状態機械
+packages/speech   @cueline/speech   SpeechProvider の境界と実装、コールの競合 (Call Arbiter)
 apps/web          Vite + React。画面、保存、i18n、PWA、ブラウザのアダプター (時計、タイマー、Wake Lock)
 spikes/           PoC のコード (08)。本体からは import しない
 ```
@@ -68,7 +68,7 @@ apps/web ──┬─ タグの絞り込み、有効/無効
 
 実装 (RM-28):
 
-- Service Worker は `apps/web/src/pwa/service-worker.ts`。ビルドのときに `vite.config.ts` のプラグインが `/sw.js` として出し、その版のファイルの一覧 (`index.html` は `/`、`public/` のアイコンと manifest も) を埋め込む。一覧から cache の名前 (`tc-<hash>`) を決めるので、版が変わると新しい cache になり、古いものは activate で消す
+- Service Worker は `apps/web/src/pwa/service-worker.ts`。ビルドのときに `vite.config.ts` のプラグインが `/sw.js` として出し、その版のファイルの一覧 (`index.html` は `/`、`public/` のアイコンと manifest も) を埋め込む。一覧から cache の名前 (`cueline-<hash>`) を決めるので、版が変わると新しい cache になり、古いものは activate で消す
 - どのリクエストを保存から返すかは `strategy.ts`。同じオリジンの GET だけ。ページの移動は保存した `/`、保存したファイルは cache を先に、ほか (VOICEVOX など他のサイト) は network
 - `skipWaiting` はしない。新しい版は待たせ、画面の「更新」で入れ替える。カウント中・戦闘中は「更新」を押せない。`/sw.js` は `Cache-Control: no-cache`
 - 登録 (`navigator.serviceWorker.register`) も Trusted Types が止める先なので、Worker と同じポリシー (同じオリジンだけ) を通す

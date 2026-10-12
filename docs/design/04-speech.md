@@ -1,6 +1,6 @@
 # 04. 読み上げ
 
-`@timeline-call/speech`。engine から受け取った通知を、選んだエンジンの声で鳴らす (ADR-0010)。
+`@cueline/speech`。engine から受け取った通知を、選んだエンジンの声で鳴らす (ADR-0010)。
 
 ## 境界
 

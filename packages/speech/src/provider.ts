@@ -1,5 +1,5 @@
 // 読み上げの境界 (docs/design/04-speech.md の「境界」)
-import type { Priority } from "@timeline-call/script";
+import type { Priority } from "@cueline/script";
 
 export type Call = {
   id: string;

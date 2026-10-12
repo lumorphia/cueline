@@ -36,7 +36,7 @@ export function createMemoryStore(): ScriptStore {
   };
 }
 
-const DB_NAME = "timeline-call";
+const DB_NAME = "cueline";
 const DB_VERSION = 1;
 const SCRIPTS = "scripts";
 

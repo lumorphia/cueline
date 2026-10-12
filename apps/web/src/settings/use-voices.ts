@@ -1,5 +1,5 @@
 // 端末の読み上げの声の一覧。Chrome は後から voiceschanged で届くので待つ
-import { sortVoices } from "@timeline-call/speech";
+import { sortVoices } from "@cueline/speech";
 import { useEffect, useState } from "react";
 
 export function useVoices(language: string): SpeechSynthesisVoice[] {

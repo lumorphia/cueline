@@ -199,13 +199,13 @@ importers:
 
   apps/web:
     dependencies:
-      '@timeline-call/engine':
+      '@cueline/engine':
         specifier: workspace:*
         version: link:../../packages/engine
-      '@timeline-call/script':
+      '@cueline/script':
         specifier: workspace:*
         version: link:../../packages/script
-      '@timeline-call/speech':
+      '@cueline/speech':
         specifier: workspace:*
         version: link:../../packages/speech
       react:
@@ -236,7 +236,7 @@ importers:
 
   packages/engine:
     dependencies:
-      '@timeline-call/script':
+      '@cueline/script':
         specifier: workspace:*
         version: link:../script
 
@@ -251,7 +251,7 @@ importers:
 
   packages/speech:
     dependencies:
-      '@timeline-call/script':
+      '@cueline/script':
         specifier: workspace:*
         version: link:../script
 

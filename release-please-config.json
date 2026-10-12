@@ -15,7 +15,7 @@
   ],
   "packages": {
     ".": {
-      "package-name": "timeline-call"
+      "package-name": "cueline"
     }
   }
 }

@@ -2,7 +2,7 @@
 import { useI18n } from "../i18n/context.tsx";
 import type { MessageKey } from "../i18n/ja.ts";
 
-const REPOSITORY = "https://github.com/lumorphia/timeline-call";
+const REPOSITORY = "https://github.com/lumorphia/cueline";
 
 const SECTIONS: { title: MessageKey; body: MessageKey }[] = [
   { title: "about.whatTitle", body: "about.what" },

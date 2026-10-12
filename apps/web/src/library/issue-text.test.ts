@@ -1,4 +1,4 @@
-import { SCRIPT_ISSUE_CODES } from "@timeline-call/script";
+import { SCRIPT_ISSUE_CODES } from "@cueline/script";
 import { describe, expect, it } from "vitest";
 import { en } from "../i18n/en.ts";
 import { ja } from "../i18n/ja.ts";

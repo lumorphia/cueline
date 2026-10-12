@@ -1,5 +1,5 @@
-import { buildTimeline, parseScript } from "@timeline-call/script";
-import type { Timeline } from "@timeline-call/script";
+import { buildTimeline, parseScript } from "@cueline/script";
+import type { Timeline } from "@cueline/script";
 import { describe, expect, it } from "vitest";
 import { createEngine } from "./engine.ts";
 import type { EngineOptions, EngineState, RewindPolicy } from "./engine.ts";

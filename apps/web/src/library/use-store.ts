@@ -22,7 +22,7 @@ export function useScriptStore(): { store: ScriptStore | null; memoryOnly: boole
   return state;
 }
 
-const LAST_KEY = "tc:last";
+const LAST_KEY = "cueline:last";
 
 export const rememberLast = (key: string | null) => {
   try {

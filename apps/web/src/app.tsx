@@ -1,6 +1,6 @@
 // 画面の入口 (docs/design/05-ui.md)。ライブラリ、再生、設定を切り替える
-import { buildTimeline, hasComments, parseScript, serializeScript } from "@timeline-call/script";
-import type { Script } from "@timeline-call/script";
+import { buildTimeline, hasComments, parseScript, serializeScript } from "@cueline/script";
+import type { Script } from "@cueline/script";
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { newScript } from "./editor/draft.ts";

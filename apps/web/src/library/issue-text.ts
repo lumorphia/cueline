@@ -1,5 +1,5 @@
 // スクリプトの問題を、利用者が直せる文にする (要件 FR-002、ADR-0011)
-import type { IssuePath, ScriptIssue } from "@timeline-call/script";
+import type { IssuePath, ScriptIssue } from "@cueline/script";
 import type { MessageKey } from "../i18n/ja.ts";
 import type { Params } from "../i18n/translate.ts";
 

@@ -1,6 +1,6 @@
 // 日本語の文言 (ADR-0011)。キーは en.ts と揃える (型とテストで確かめる)
 export const ja = {
-  "app.title": "Timeline Call (仮称)",
+  "app.title": "CueLine",
   "app.language": "English",
   "state.ready": "準備",
   "state.countdown": "カウント中",
