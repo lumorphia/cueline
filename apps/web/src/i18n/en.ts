@@ -192,4 +192,20 @@ export const en: Record<MessageKey, string> = {
   "app.updateReady": "A new version is ready",
   "app.updateWhilePlaying": "A new version is ready. You can update after playback",
   "app.update": "Update",
+  "about.link": "About",
+  "about.title": "About this app",
+  "about.whatTitle": "What it does",
+  "about.what":
+    "A timer that calls out by voice and on screen at the times in a timeline you make. You line up the start with the pull countdown, and fix drift during the fight with event sync and nudges.",
+  "about.gameTitle": "It never touches the game",
+  "about.game":
+    "This app does not touch the game's process, memory, network traffic, logs, screen or input. Like a stopwatch, times come only from what you press. It will never follow events inside the game automatically.",
+  "about.dataTitle": "Your data stays on this device",
+  "about.data":
+    "Scripts and settings are saved only in this browser (device) and are never sent anywhere. There is no analytics. Clearing the browser data removes your scripts too, so export a copy.",
+  "about.unofficialTitle": "This is an unofficial tool",
+  "about.unofficial":
+    "This app is an unofficial tool with no relation to SQUARE ENIX CO., LTD., and it is not approved or endorsed by Square Enix.",
+  "about.source": "Source code",
+  "about.security": "Found a vulnerability? (private report)",
 };
