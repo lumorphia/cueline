@@ -10,6 +10,7 @@ import { IssueList } from "./library/issue-list.tsx";
 import { LibraryView } from "./library/library-view.tsx";
 import type { ScriptRecord, ScriptStore } from "./library/store.ts";
 import { lastOpened, rememberLast, useScriptStore } from "./library/use-store.ts";
+import { AboutView } from "./about/about-view.tsx";
 import { Player } from "./player/player.tsx";
 import { useServiceWorker } from "./pwa/use-service-worker.ts";
 import { useSettings } from "./settings/context.tsx";
@@ -20,7 +21,7 @@ export function App() {
   const { t, language, setLanguage } = useI18n();
   const { store, memoryOnly } = useScriptStore();
   const [open, setOpen] = useState<ScriptRecord | null>(null);
-  const [showSettings, setShowSettings] = useState(false);
+  const [panel, setPanel] = useState<"settings" | "about" | null>(null);
   const [editing, setEditing] = useState<Editing | null>(null);
   const [playing, setPlaying] = useState(false);
   const { updateReady, apply } = useServiceWorker();
@@ -34,7 +35,7 @@ export function App() {
   const openRecord = (record: ScriptRecord | null) => {
     rememberLast(record?.key ?? null);
     setOpen(record);
-    setShowSettings(false);
+    setPanel(null);
   };
 
   let body: ReactNode = null;
@@ -59,7 +60,8 @@ export function App() {
       hadComments: false,
     });
 
-  if (showSettings) body = <SettingsView />;
+  if (panel === "settings") body = <SettingsView />;
+  else if (panel === "about") body = <AboutView />;
   else if (editing && store)
     body = (
       <EditorView
@@ -83,6 +85,7 @@ export function App() {
         onOpen={openRecord}
         onEdit={edit}
         onCreate={create}
+        onAbout={() => setPanel("about")}
       />
     );
 
@@ -91,15 +94,13 @@ export function App() {
       <div className="flex items-center justify-between gap-3">
         <h1 className="truncate text-base font-bold sm:text-lg">{t("app.title")}</h1>
         <div className="flex shrink-0 gap-1">
-          {(open || showSettings) && !editing && (
-            <HeaderButton
-              onClick={() => (showSettings ? setShowSettings(false) : openRecord(null))}
-            >
-              {showSettings ? t("app.back") : t("library.back")}
+          {(open || panel) && !editing && (
+            <HeaderButton onClick={() => (panel ? setPanel(null) : openRecord(null))}>
+              {panel ? t("app.back") : t("library.back")}
             </HeaderButton>
           )}
-          {!showSettings && (
-            <HeaderButton onClick={() => setShowSettings(true)}>{t("app.settings")}</HeaderButton>
+          {!panel && (
+            <HeaderButton onClick={() => setPanel("settings")}>{t("app.settings")}</HeaderButton>
           )}
           <HeaderButton onClick={() => setLanguage(language === "ja" ? "en" : "ja")}>
             {t("app.language")}
@@ -126,7 +127,7 @@ export function App() {
       )}
       {/* 再生は画面の高さに収め、余りを次の通知の一覧に回す。ライブラリと設定は縦にスクロールする */}
       <div
-        className={`flex min-h-0 flex-1 flex-col ${open && !showSettings && !editing ? "" : "overflow-y-auto pb-4"}`}
+        className={`flex min-h-0 flex-1 flex-col ${open && !panel && !editing ? "" : "overflow-y-auto pb-4"}`}
       >
         {body}
       </div>

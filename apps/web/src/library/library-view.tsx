@@ -15,6 +15,7 @@ type Props = {
   onOpen: (record: ScriptRecord) => void;
   onEdit: (record: ScriptRecord) => void;
   onCreate: () => void;
+  onAbout: () => void;
 };
 
 type Outcome =
@@ -39,7 +40,7 @@ function download(file: { filename: string; text: string; type: string }) {
   URL.revokeObjectURL(url);
 }
 
-export function LibraryView({ store, memoryOnly, onOpen, onEdit, onCreate }: Props) {
+export function LibraryView({ store, memoryOnly, onOpen, onEdit, onCreate, onAbout }: Props) {
   const { t, language } = useI18n();
   const [records, setRecords] = useState<readonly ScriptRecord[]>([]);
   const [pasted, setPasted] = useState("");
@@ -169,6 +170,13 @@ export function LibraryView({ store, memoryOnly, onOpen, onEdit, onCreate }: Pro
           onCancel={() => setOutcome(null)}
         />
       </div>
+
+      <p className="text-center text-xs opacity-70">
+        <button type="button" className="underline" onClick={onAbout}>
+          {t("about.link")}
+        </button>
+        {" · "}FINAL FANTASY XIV © SQUARE ENIX
+      </p>
     </section>
   );
 
