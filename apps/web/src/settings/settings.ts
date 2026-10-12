@@ -41,7 +41,7 @@ export const DEFAULT_SETTINGS: Settings = {
   tagsByScript: {},
 };
 
-const KEY = "tc:settings";
+const KEY = "cueline:settings";
 
 type StorageLike = Pick<Storage, "getItem" | "setItem">;
 

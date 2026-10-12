@@ -24,9 +24,7 @@ describe("eslint boundaries", () => {
   });
 
   it("keeps the script free of the engine", async () => {
-    expect(await restricted("packages/script/src/x.ts", 'import "@timeline-call/engine";')).toBe(
-      true,
-    );
+    expect(await restricted("packages/script/src/x.ts", 'import "@cueline/engine";')).toBe(true);
   });
 
   it("keeps the engine free of React", async () => {
@@ -34,21 +32,15 @@ describe("eslint boundaries", () => {
   });
 
   it("keeps the engine free of the speech package", async () => {
-    expect(await restricted("packages/engine/src/x.ts", 'import "@timeline-call/speech";')).toBe(
-      true,
-    );
+    expect(await restricted("packages/engine/src/x.ts", 'import "@cueline/speech";')).toBe(true);
   });
 
   it("lets the engine use the script", async () => {
-    expect(await restricted("packages/engine/src/x.ts", 'import "@timeline-call/script";')).toBe(
-      false,
-    );
+    expect(await restricted("packages/engine/src/x.ts", 'import "@cueline/script";')).toBe(false);
   });
 
   it("keeps the speech package free of the engine", async () => {
-    expect(await restricted("packages/speech/src/x.ts", 'import "@timeline-call/engine";')).toBe(
-      true,
-    );
+    expect(await restricted("packages/speech/src/x.ts", 'import "@cueline/engine";')).toBe(true);
   });
 
   it("keeps the speech package free of React", async () => {
@@ -62,15 +54,15 @@ describe("eslint boundaries", () => {
   it("lets the web app use every package and React", async () => {
     const code = [
       'import "react";',
-      'import "@timeline-call/script";',
-      'import "@timeline-call/engine";',
-      'import "@timeline-call/speech";',
+      'import "@cueline/script";',
+      'import "@cueline/engine";',
+      'import "@cueline/speech";',
     ].join("\n");
     expect(await restricted("apps/web/src/x.tsx", code)).toBe(false);
   });
 
   it("makes the web app use packages through exports only", async () => {
-    const code = 'import "@timeline-call/engine/src/engine.ts";';
+    const code = 'import "@cueline/engine/src/engine.ts";';
     expect(await restricted("apps/web/src/x.tsx", code)).toBe(true);
   });
 

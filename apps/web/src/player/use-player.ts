@@ -1,10 +1,10 @@
 // 再生のつなぎ (docs/design/01-architecture.md の「データの流れ」)。エンジン、読み上げ、Worker のタイマーを組み立て、
 // 画面にはスナップショットを requestAnimationFrame ごとに渡す
-import { createEngine } from "@timeline-call/engine";
-import type { Engine, EngineSnapshot, RewindPolicy } from "@timeline-call/engine";
-import type { Timeline, TimelineNotification } from "@timeline-call/script";
-import { createArbiter, createWebSpeechProvider, unlockAudio } from "@timeline-call/speech";
-import type { Arbiter, ConflictMode, VoiceSettings } from "@timeline-call/speech";
+import { createEngine } from "@cueline/engine";
+import type { Engine, EngineSnapshot, RewindPolicy } from "@cueline/engine";
+import type { Timeline, TimelineNotification } from "@cueline/script";
+import { createArbiter, createWebSpeechProvider, unlockAudio } from "@cueline/speech";
+import type { Arbiter, ConflictMode, VoiceSettings } from "@cueline/speech";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createWorkerTimer } from "../timer/worker-timer.ts";
 import { shouldPlay } from "./tag-filter.ts";

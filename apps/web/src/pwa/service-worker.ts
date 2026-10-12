@@ -31,7 +31,7 @@ sw.addEventListener("activate", (e) => {
       .keys()
       .then((keys) =>
         Promise.all(
-          keys.filter((k) => k.startsWith("tc-") && k !== CACHE).map((k) => caches.delete(k)),
+          keys.filter((k) => k.startsWith("cueline-") && k !== CACHE).map((k) => caches.delete(k)),
         ),
       )
       .then(() => sw.clients.claim()),

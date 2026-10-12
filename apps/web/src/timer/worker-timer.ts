@@ -1,5 +1,5 @@
 // エンジンに渡すタイマー (ADR-0013)。Worker の中で待ち、起きたらメインスレッドで callback を呼ぶ
-import type { Timer, TimerHandle } from "@timeline-call/engine";
+import type { Timer, TimerHandle } from "@cueline/engine";
 import { scriptUrl } from "../trusted-types.ts";
 import type { TimerReply, TimerRequest } from "./timer.worker.ts";
 import workerUrl from "./timer.worker.ts?worker&url";

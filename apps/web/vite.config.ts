@@ -22,7 +22,7 @@ function filesIn(dir: string, base = dir): string[] {
  */
 function serviceWorker(): Plugin {
   return {
-    name: "timeline-call-service-worker",
+    name: "cueline-service-worker",
     apply: "build",
     // index.html は Vite の HTML のプラグインが出すので、その後に動く
     enforce: "post",

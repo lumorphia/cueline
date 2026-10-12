@@ -1,12 +1,12 @@
 # セキュリティ
 
-Timeline Call (仮称) は、利用者が書いたタイムラインに沿って声と画面で知らせる、ブラウザだけで動くアプリです。サーバーを持たず、利用者のデータは端末の中にだけ置きます。
+CueLine は、利用者が書いたタイムラインに沿って声と画面で知らせる、ブラウザだけで動くアプリです。サーバーを持たず、利用者のデータは端末の中にだけ置きます。
 
 ## 弱点を見つけたら
 
 **Issue や Pull Request には書かないでください。** このリポジトリは公開されているので、直す前に手口が知られてしまいます。
 
-GitHub の [非公開の報告 (Report a vulnerability)](https://github.com/lumorphia/timeline-call/security/advisories/new) から知らせてください。運営者だけが読めます。
+GitHub の [非公開の報告 (Report a vulnerability)](https://github.com/lumorphia/cueline/security/advisories/new) から知らせてください。運営者だけが読めます。
 
 - 何が起きるか、どうすれば再現できるか (再現に使ったスクリプトや音声パックがあれば添えてください)
 - 影響を受ける範囲 (ブラウザの停止、画面への差し込み、意図しない通信、端末のデータ)
@@ -15,7 +15,7 @@ GitHub の [非公開の報告 (Report a vulnerability)](https://github.com/lumo
 
 ## 運営者の手順
 
-1. 報告や自分で見つけた弱点は、Issue にせず、[セキュリティアドバイザリ](https://github.com/lumorphia/timeline-call/security/advisories) の下書きにする
+1. 報告や自分で見つけた弱点は、Issue にせず、[セキュリティアドバイザリ](https://github.com/lumorphia/cueline/security/advisories) の下書きにする
 2. アドバイザリの **一時的な非公開の fork** で直す。テストもそこで書く。公開のブランチや PR には出さない
 3. 公開する (非公開の fork から main にマージし、リリースして配信を更新する)
 4. 配信を更新したことを確かめてから、アドバイザリを公開する

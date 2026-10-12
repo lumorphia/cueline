@@ -1,5 +1,5 @@
 // ライブラリの画面 (docs/design/05-ui.md)。保存したスクリプトの一覧、読み込み (ファイル、貼り付け、サンプル)、書き出し、消す
-import type { ScriptIssue } from "@timeline-call/script";
+import type { ScriptIssue } from "@cueline/script";
 import { useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { useI18n } from "../i18n/context.tsx";

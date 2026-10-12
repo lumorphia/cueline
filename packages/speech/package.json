@@ -1,5 +1,5 @@
 {
-  "name": "@timeline-call/speech",
+  "name": "@cueline/speech",
   "version": "0.0.0",
   "private": true,
   "description": "読み上げのプロバイダと、コールの競合の扱い (docs/design/04)",
@@ -13,6 +13,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@timeline-call/script": "workspace:*"
+    "@cueline/script": "workspace:*"
   }
 }

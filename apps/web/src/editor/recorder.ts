@@ -1,6 +1,6 @@
 // 記録して作る (要件 FR-008、05 の「記録して作る」)。プルカウントか開始で時計を動かし、「いま」を押した時刻を集める。
 // 時計はエンジンと同じく単調時計から毎回計算する。ゲームには触れない
-import type { Script } from "@timeline-call/script";
+import type { Script } from "@cueline/script";
 import { addEvent, addPhase } from "./draft.ts";
 
 export type RecordedPhase = { stamps: readonly number[] };

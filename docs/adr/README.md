@@ -15,5 +15,6 @@
 | [0011](0011-ui-language-ja-en.md)               | 画面は日本語と英語、文言は辞書で持つ                            | Accepted             |
 | [0012](0012-sharing-with-lumorphia-account.md)  | 共有 (P2) のログインは Lumorphia アカウント                     | Proposed             |
 | [0013](0013-worker-timer.md)                    | タイマーは Web Worker の中で回す                                | Accepted             |
+| [0014](0014-name-cueline.md)                    | 正式名を CueLine にする                                         | Accepted             |
 
 本文中の「scenote ADR-NNNN」などは、lumorphia の他のリポジトリの ADR を指す。

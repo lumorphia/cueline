@@ -1,5 +1,5 @@
 // 設定の画面 (要件 8 章、docs/design/05-ui.md)。変えたらすぐ保存する
-import { createWebSpeechProvider } from "@timeline-call/speech";
+import { createWebSpeechProvider } from "@cueline/speech";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { useI18n } from "../i18n/context.tsx";

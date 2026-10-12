@@ -6,7 +6,7 @@ import type {
   ScriptIssue,
   ScriptNotification,
   ScriptPhase,
-} from "@timeline-call/script";
+} from "@cueline/script";
 import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { useI18n } from "../i18n/context.tsx";

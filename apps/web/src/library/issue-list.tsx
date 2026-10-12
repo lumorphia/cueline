@@ -1,5 +1,5 @@
 // スクリプトの問題の一覧。どこが (行、パス)、何が、どう直すかを出す (要件 FR-002)
-import type { ScriptIssue } from "@timeline-call/script";
+import type { ScriptIssue } from "@cueline/script";
 import { useI18n } from "../i18n/context.tsx";
 import { formatPath, issueText } from "./issue-text.ts";
 

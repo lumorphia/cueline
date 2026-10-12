@@ -1,5 +1,5 @@
 // 再生画面 (docs/design/05-ui.md)。戦闘中は一瞬しか見ないので、今のフェーズ・次のイベント・残り秒数を大きく出す
-import type { Timeline } from "@timeline-call/script";
+import type { Timeline } from "@cueline/script";
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import { useI18n } from "../i18n/context.tsx";

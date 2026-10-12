@@ -1,16 +1,16 @@
 # AGENTS.md
 
-lumorphia/timeline-call: 利用者が書いたタイムライン (YAML / JSON) に沿って、決めた時刻に声と画面で知らせるブラウザのアプリ。サーバーを持たない。ゲームには一切触れない (ADR-0005)。名前は仮称。
+lumorphia/cueline: 利用者が書いたタイムライン (YAML / JSON) に沿って、決めた時刻に声と画面で知らせるブラウザのアプリ。サーバーを持たない。ゲームには一切触れない (ADR-0005)。名前は CueLine (ADR-0014)。
 
-今は M1 (骨組みと PoC)。パッケージの中身は M2 で作る。
+今は M2 (MVP) の終わり。残りは公開ゲート (docs/design/09-roadmap.md の RM-31)。
 
 ## 構成
 
 ```
-packages/script   @timeline-call/script   スキーマ (zod)、YAML / JSON の読み書き、検証、展開 (docs/design/02)
-packages/engine   @timeline-call/engine   論理時計、スケジューラ、再生の状態機械 (docs/design/03)
-packages/speech   @timeline-call/speech   読み上げのプロバイダ、コールの競合 (docs/design/04)
-apps/web          @timeline-call/web      Vite + React の画面
+packages/script   @cueline/script   スキーマ (zod)、YAML / JSON の読み書き、検証、展開 (docs/design/02)
+packages/engine   @cueline/engine   論理時計、スケジューラ、再生の状態機械 (docs/design/03)
+packages/speech   @cueline/speech   読み上げのプロバイダ、コールの競合 (docs/design/04)
+apps/web          @cueline/web      Vite + React の画面
 e2e/              Playwright の E2E (apps/web のビルドに対して回す)
 tooling/          リポジトリ全体の決まりのテスト (ESLint の依存の向き)
 spikes/           PoC の計測ページ (本体から import しない。ESLint も見ない。docs/design/08-poc.md)
@@ -20,13 +20,13 @@ spikes/           PoC の計測ページ (本体から import しない。ESLint
 
 ## 着手前に読むもの
 
-| 目的             | 文書                                                                 |
-| ---------------- | -------------------------------------------------------------------- |
-| 何を作るか       | [docs/timeline-call_要件定義書.md](docs/timeline-call_要件定義書.md) |
-| 設計の索引       | [docs/SUMMARY.md](docs/SUMMARY.md)                                   |
-| 次に何をやるか   | [docs/design/09-roadmap.md](docs/design/09-roadmap.md)               |
-| なぜそう決めたか | [docs/adr/](docs/adr/README.md)                                      |
-| 配信             | [docs/runbook/deploy.md](docs/runbook/deploy.md)                     |
+| 目的             | 文書                                                     |
+| ---------------- | -------------------------------------------------------- |
+| 何を作るか       | [docs/cueline_要件定義書.md](docs/cueline_要件定義書.md) |
+| 設計の索引       | [docs/SUMMARY.md](docs/SUMMARY.md)                       |
+| 次に何をやるか   | [docs/design/09-roadmap.md](docs/design/09-roadmap.md)   |
+| なぜそう決めたか | [docs/adr/](docs/adr/README.md)                          |
+| 配信             | [docs/runbook/deploy.md](docs/runbook/deploy.md)         |
 
 ## 守ること
 
@@ -44,7 +44,7 @@ packages/speech  ->  script の型だけ。engine を import しない
 apps/web         ->  上の全部と react。Node API を使わない。dangerouslySetInnerHTML を使わない
 ```
 
-ほかのパッケージは exports から使う (`@timeline-call/*/src/...` を直接指さない)。
+ほかのパッケージは exports から使う (`@cueline/*/src/...` を直接指さない)。
 
 ## 作業の流れ
 

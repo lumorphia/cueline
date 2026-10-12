@@ -2,7 +2,7 @@
 import type { MessageKey } from "./ja.ts";
 
 export const en: Record<MessageKey, string> = {
-  "app.title": "Timeline Call (working title)",
+  "app.title": "CueLine",
   "app.language": "日本語",
   "state.ready": "Ready",
   "state.countdown": "Countdown",

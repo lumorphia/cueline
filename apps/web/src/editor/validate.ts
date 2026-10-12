@@ -1,6 +1,6 @@
 // エディタの検証。読み込みと同じ規則 (packages/script) を使い、問題をパスで欄に結びつける (05 の「エディタ」)
-import { parseScript, serializeScript } from "@timeline-call/script";
-import type { IssuePath, Script, ScriptIssue } from "@timeline-call/script";
+import { parseScript, serializeScript } from "@cueline/script";
+import type { IssuePath, Script, ScriptIssue } from "@cueline/script";
 
 export function validateDraft(script: Script): { errors: ScriptIssue[]; warnings: ScriptIssue[] } {
   const result = parseScript(serializeScript(script, "json"), { format: "json" });

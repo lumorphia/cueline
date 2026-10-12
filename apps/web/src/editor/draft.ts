@@ -1,6 +1,6 @@
 // エディタの編集 (docs/design/05-ui.md の「エディタ」)。Script を変えずに、新しい Script を作って返す。
 // ID (英数字) は自動で付け、使っている番号とぶつからないようにする
-import type { Script, ScriptEvent, ScriptNotification, ScriptPhase } from "@timeline-call/script";
+import type { Script, ScriptEvent, ScriptNotification, ScriptPhase } from "@cueline/script";
 
 /** prefix に 1 から順に番号を付け、使われていない最小のものを返す */
 function nextId(prefix: string, used: Iterable<string>): string {

@@ -1,4 +1,4 @@
-import { parseScript } from "@timeline-call/script";
+import { parseScript } from "@cueline/script";
 import { describe, expect, it } from "vitest";
 import { detectFormat, exportScript, importScript } from "./library.ts";
 import { createMemoryStore } from "./store.ts";

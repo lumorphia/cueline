@@ -1,6 +1,6 @@
 // ライブラリ (docs/design/05-ui.md、06-storage.md)。読み込み (要件 FR-001、002)、保存、書き出し (FR-005)
-import { parseScript, serializeScript } from "@timeline-call/script";
-import type { ScriptIssue } from "@timeline-call/script";
+import { parseScript, serializeScript } from "@cueline/script";
+import type { ScriptIssue } from "@cueline/script";
 import type { ScriptRecord, ScriptStore } from "./store.ts";
 
 export type Format = "yaml" | "json";

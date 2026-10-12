@@ -65,4 +65,4 @@ const server = createServer(async (req, res) => {
   createReadStream(file).pipe(res);
 });
 
-server.listen(PORT, HOST, () => console.log(`timeline-call web: http://${HOST}:${PORT}`));
+server.listen(PORT, HOST, () => console.log(`cueline web: http://${HOST}:${PORT}`));

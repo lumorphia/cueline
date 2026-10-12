@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 const NODE_APIS = ["node:*", "fs", "path", "crypto", "os", "child_process"];
 const REACT = ["react", "react-dom", "react/*", "react-dom/*"];
 const DEEP = {
-  group: ["@timeline-call/*/src/*"],
+  group: ["@cueline/*/src/*"],
   message: "ほかのパッケージは package.json の exports から使う",
 };
 
@@ -19,7 +19,7 @@ const script = {
   ...restrict([
     { group: NODE_APIS, message: "script はブラウザで動く。Node API を使わない" },
     {
-      group: ["@timeline-call/engine", "@timeline-call/speech", ...REACT],
+      group: ["@cueline/engine", "@cueline/speech", ...REACT],
       message: "script は zod と yaml だけに依存する",
     },
   ]),
@@ -31,7 +31,7 @@ const engine = {
     { group: NODE_APIS, message: "engine はブラウザで動く。Node API を使わない" },
     { group: REACT, message: "engine は React に依存しない (画面は apps/web)" },
     {
-      group: ["@timeline-call/speech"],
+      group: ["@cueline/speech"],
       message: "engine は speech を知らない。通知は onFire で外に渡す",
     },
     DEEP,
@@ -44,7 +44,7 @@ const speech = {
     { group: NODE_APIS, message: "speech はブラウザで動く。Node API を使わない" },
     { group: REACT, message: "speech は React に依存しない (画面は apps/web)" },
     {
-      group: ["@timeline-call/engine"],
+      group: ["@cueline/engine"],
       message: "speech は engine を知らない。コールは apps/web が渡す",
     },
     DEEP,

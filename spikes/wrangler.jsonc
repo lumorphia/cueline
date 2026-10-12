@@ -2,7 +2,7 @@
 // 本体の配信 (RM-12) とは別の Worker。spikes/ の静的ファイルだけを配る。
 // 載せる: npx wrangler deploy -c spikes/wrangler.jsonc
 {
-  "name": "timeline-call-spikes",
+  "name": "cueline-spikes",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": ".",

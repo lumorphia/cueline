@@ -33,5 +33,5 @@ export function cacheName(list: readonly string[]): string {
     hash ^= text.charCodeAt(i);
     hash = Math.imul(hash, 0x01000193) >>> 0;
   }
-  return `tc-${hash.toString(16).padStart(8, "0")}`;
+  return `cueline-${hash.toString(16).padStart(8, "0")}`;
 }

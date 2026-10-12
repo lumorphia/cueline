@@ -15,7 +15,7 @@ python3 -m http.server 8731 --bind 127.0.0.1 -d spikes/poc-001-timer
 
 ## 測る組み合わせ
 
-URL: https://timeline-call-spikes.dev-t1nyb0x.workers.dev/poc-001-timer/
+URL: https://cueline-spikes.dev-t1nyb0x.workers.dev/poc-001-timer/
 
 実機で測るのは「その端末でどれだけ遅れるか」。遅れが時間とともに積もらないかは、headless Chromium で 35 分回して別に確かめる。実機は **長さ 15 分** で足りる (Chrome がタイマーを強く間引くのは、隠れてから 5 分を過ぎてから)。
 

@@ -1,5 +1,5 @@
 {
-  "name": "timeline-call",
+  "name": "cueline",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,8 +10,8 @@
   },
   "packageManager": "pnpm@12.8.1",
   "scripts": {
-    "dev": "pnpm --filter @timeline-call/web dev",
-    "build": "pnpm --filter @timeline-call/web build",
+    "dev": "pnpm --filter @cueline/web dev",
+    "build": "pnpm --filter @cueline/web build",
     "typecheck": "tsc -p tsconfig.json && pnpm -r --if-present run typecheck",
     "lint": "eslint .",
     "format": "prettier --write .",

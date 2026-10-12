@@ -1,8 +1,8 @@
 {
-  "name": "@timeline-call/web",
+  "name": "@cueline/web",
   "version": "0.0.0",
   "private": true,
-  "description": "Timeline Call の画面 (Vite + React)。パッケージをつなぎ、保存・i18n・PWA を持つ",
+  "description": "CueLine の画面 (Vite + React)。パッケージをつなぎ、保存・i18n・PWA を持つ",
   "license": "AGPL-3.0-only",
   "type": "module",
   "scripts": {
@@ -13,9 +13,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@timeline-call/engine": "workspace:*",
-    "@timeline-call/script": "workspace:*",
-    "@timeline-call/speech": "workspace:*",
+    "@cueline/engine": "workspace:*",
+    "@cueline/script": "workspace:*",
+    "@cueline/speech": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "zod": "^4.6.5"

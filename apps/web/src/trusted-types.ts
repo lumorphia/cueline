@@ -14,7 +14,7 @@ function sameOrigin(url: string): string {
 }
 
 // Trusted Types の無いブラウザ (Firefox、Safari の古い版) では、確かめた文字列をそのまま使う
-const policy: Policy = factory?.createPolicy("timeline-call", { createScriptURL: sameOrigin }) ?? {
+const policy: Policy = factory?.createPolicy("cueline", { createScriptURL: sameOrigin }) ?? {
   createScriptURL: sameOrigin,
 };
 

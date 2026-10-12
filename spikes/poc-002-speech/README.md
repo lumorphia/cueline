@@ -2,7 +2,7 @@
 
 [docs/design/08-poc.md](../../docs/design/08-poc.md) の PoC-002 を測るための、依存の無い静的ページ。`arbiter.js` は Call Arbiter (04 の「競合」) の下書きで、`node --test spikes/poc-002-speech/arbiter.test.mjs` で確かめる。
 
-URL: https://timeline-call-spikes.dev-t1nyb0x.workers.dev/poc-002-speech/
+URL: https://cueline-spikes.dev-t1nyb0x.workers.dev/poc-002-speech/
 
 ## 測るもの
 

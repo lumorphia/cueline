@@ -1,5 +1,5 @@
-import { parseScript } from "@timeline-call/script";
-import type { Script } from "@timeline-call/script";
+import { parseScript } from "@cueline/script";
+import type { Script } from "@cueline/script";
 import { describe, expect, it } from "vitest";
 import {
   addEvent,
@@ -170,7 +170,7 @@ describe("tags", () => {
 
 describe("a draft built from scratch", () => {
   it("reads as a valid script", async () => {
-    const { serializeScript } = await import("@timeline-call/script");
+    const { serializeScript } = await import("@cueline/script");
     let s: Script = addTag(base(), "タンク");
     s = addEvent(s, 0, { at: 8 });
     s = addPhase(s);

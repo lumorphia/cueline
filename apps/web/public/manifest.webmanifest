@@ -1,6 +1,6 @@
 {
-  "name": "Timeline Call (仮称)",
-  "short_name": "Timeline Call",
+  "name": "CueLine",
+  "short_name": "CueLine",
   "description": "タイムラインに沿って声と画面でコールする",
   "start_url": "/",
   "scope": "/",

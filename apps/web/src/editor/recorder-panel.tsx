@@ -1,6 +1,6 @@
 // 記録して作る画面 (要件 FR-008、05 の「記録して作る」)。動画や実戦に合わせて時計を動かし、
 // ギミックが来た瞬間に「いま」を押す。名前とコールは後でエディタの表で直す。ゲームには触れない
-import type { Script } from "@timeline-call/script";
+import type { Script } from "@cueline/script";
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "../i18n/context.tsx";
 import { formatClock } from "../player/format.ts";
