@@ -1,5 +1,5 @@
 // 本体の配信 (ADR-0002、docs/runbook/deploy.md)。apps/web のビルドを静的アセットとして配る。
-// 応答ヘッダーは apps/web/public/_headers。正式名が決まるまでは workers.dev だけ (09-roadmap の公開ゲート)
+// 応答ヘッダーは apps/web/public/_headers
 {
   "name": "cueline",
   "compatibility_date": "2026-10-01",
@@ -7,6 +7,10 @@
     "directory": "./apps/web/dist",
     "not_found_handling": "single-page-application",
   },
+  // 公開の URL (ADR-0014)。lumorphia.com は同じ Cloudflare のアカウントにある
+  "routes": [{ "pattern": "cueline.lumorphia.com", "custom_domain": true }],
+  // workers.dev の URL も残す (確かめ用)
+  "workers_dev": true,
   // PR ごとのプレビュー (版ごとの URL)
   "preview_urls": true,
 }

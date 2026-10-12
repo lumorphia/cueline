@@ -62,7 +62,9 @@ RM-13〜16 は計測ページのプレビュー (`spikes/wrangler.jsonc`) の上
 公開 (URL を人に教える) の前に、全部を済ませる。
 
 - [x] 正式名を決め、リポジトリ・パッケージのスコープ・画面の名前を置き換える (CueLine、ADR-0014)
-- [ ] `<正式名>.lumorphia.com` を当て、lumorphia/website に載せる
+- [x] `cueline.lumorphia.com` を当てる
+- [ ] lumorphia/website に載せる
+- [ ] 古い Worker (`timeline-call`、`timeline-call-spikes`) を消す (運営者が古い URL で書き出してから)
 - [x] 画面 (「このアプリについて」) と README に「ゲームに触れないタイマーであること」「FINAL FANTASY XIV の運営とは関係が無いこと」を書く (ADR-0005)
 - [ ] 要件 11.3 の完了条件を、PoC と同じ端末で手で確かめる (30 分の連続再生を含む。10-mvp-acceptance の「手で確かめる」)
 - [x] `SECURITY.md` の報告先が動くこと (2026-10-12 にリポジトリの非公開の報告を有効にした。それまで無効だった)
