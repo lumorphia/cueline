@@ -66,3 +66,17 @@ test("tells the user when the screen cannot be kept on", async ({ page }) => {
   await page.getByRole("button", { name: "開始", exact: true }).click();
   await expect(page.getByText("この端末では画面の自動ロックを止められません")).toBeVisible();
 });
+
+const overflow = (page: Page) =>
+  page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+
+test("shows the library and the editor without sideways scrolling", async ({ page }) => {
+  await fakeWakeLock(page);
+  await page.goto("/");
+  expect(await overflow(page)).toBeLessThanOrEqual(0);
+  await page.getByRole("button", { name: "サンプルを開く" }).click();
+  await page.getByRole("button", { name: "ライブラリへ" }).click();
+  await page.getByRole("button", { name: "直す" }).click();
+  await expect(page.getByTestId("editor")).toBeVisible();
+  expect(await overflow(page)).toBeLessThanOrEqual(0);
+});
